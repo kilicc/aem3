@@ -51,10 +51,14 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhY
 
 #### DNS Ayarları (cPanel'de)
 cPanel → **Zone Editor** veya **DNS Zone Editor**:
-- **Type**: A Record veya CNAME
-- **Name**: `planlama`
-- **Value**: Vercel'in verdiği IP adresi veya CNAME (örn: `cname.vercel-dns.com`)
+- **Type**: CNAME (Önerilen) veya A Record
+- **Name**: `planlama` (sadece subdomain, domain olmadan)
+- **Value**: Vercel'in verdiği CNAME (örn: `cname.vercel-dns.com`) veya IP adresi
 - **TTL**: 3600
+
+**📖 Detaylı DNS Rehberi için:** [CPANEL_DNS_SETUP.md](./CPANEL_DNS_SETUP.md) dosyasına bakın.
+
+**⚠️ ÖNEMLİ:** Dinamik DNS gerekmez! Vercel için normal CNAME veya A Record yeterli.
 
 ---
 
