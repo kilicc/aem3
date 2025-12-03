@@ -1,0 +1,110 @@
+version: 1
+rules:
+  - name: Proje Teknolojisi
+    description: Proje kesinlikle SADECE Next.js 16, TypeScript, TailwindCSS, Supabase ve Prisma (sadece DB şema senkronizasyonu için) kullanılarak geliştirilmelidir.
+    match: "**/*"
+    expect:
+      - "Framework olarak SADECE Next.js 16 kullanılacak (14 veya 15 KULLANILAMAZ)."
+      - "Next.js 16 App Router ve Server Actions kullanılacak."
+      - "Tüm veritabanı işlemleri Supabase JS client üzerinden yapılacak."
+      - "Tüm ortam değişkenleri (.env) eksiksiz ve doğru şekilde kullanılacak."
+      - "Service role key SADECE server-side kodda kullanılacak."
+      - "Prisma SADECE db pull + type generation için kullanılacak (runtime ORM olarak kullanılmayacak)."
+      - "Tüm backend işlemleri Next.js 16 server actions veya server routes içinde olacak."
+
+  - name: Ortam Değişkenleri (ENV)
+    description: Bu ortam değişkenleri geliştirme ve üretim ortamında doğru şekilde kullanılmalıdır.
+    match: "**/*"
+    expect:
+      - "NEXT_PUBLIC_SUPABASE_URL=https://tcxzejixpbswryublptx.supabase.co kullanılacak."
+      - "NEXT_PUBLIC_SUPABASE_ANON_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjeHplaml4cGJzd3J5dWJscHR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1OTMzMzUsImV4cCI6MjA3OTE2OTMzNX0.vlQsWmcmJXD9ggiOyekZxIs29o0lPyvMkEKTHL1bUL0"
+      - "SUPABASE_SERVICE_ROLE_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjeHplaml4cGJzd3J5dWJscHR4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzU5MzMzNSwiZXhwIjoyMDc5MTY5MzM1fQ.-23n0Ieu8uIk0i9heft9bjQMRXaStPfWJLkeNRPZBiU"
+      - "Service role key ASLA client bundle içinde yer almayacak."
+
+  - name: GitHub Entegrasyonu
+    description: Her başarılı build işleminden sonra proje GitHub deposuna pushlanmalıdır.
+    match: "**/*"
+    expect:
+      - "GitHub deposu: https://github.com/kilicc/aem2.git"
+      - "Her önemli değişiklikten sonra: build al → build başarılıysa aem2 repo'ya commit + push yap."
+      - "Build adımı ASLA atlanmayacak."
+      - "Build hatalıysa DUR ve devam etme; önce sorunu çöz."
+
+  - name: Veritabanı Senkronizasyon Kuralı
+    description: Supabase proje için tek ve kesin şema kaynağıdır.
+    match: "**/*"
+    expect:
+      - "Veritabanıyla ilgili bir değişiklikten önce: prisma db pull çalıştır."
+      - "Ardından: prisma generate çalıştır."
+      - "Tüm TypeScript türleri Supabase şemasından otomatik üretilmeli."
+      - "Prisma runtime ORM olarak kullanılmayacak — sadece tip üretimi için."
+
+  - name: Mimari Kurallar
+    description: Proje temiz ve modüler bir mimariye sahip olmalıdır.
+    match: "**/*"
+    expect:
+      - "/app klasör yapısı kullanılacak (Next.js 16)."
+      - "/modules/admin, /modules/depo, /modules/is-emri, /modules/musteri, /modules/fatura, /modules/auth klasör yapısı oluşturulacak."
+      - "Tüm mutasyonlar server actions üzerinden yapılacak."
+      - "Veri çekme React Query veya Next.js built-in fetch metodlarıyla yapılacak."
+      - "Supabase RLS kurallarına uygun çalışılacak."
+
+  - name: Depo & İş Emri Mantığı
+    description: Depo, envanter ve iş emri işleyişi kesin kurallara bağlıdır.
+    match: "**/*"
+    expect:
+      - "Sistemde SADECE 2 rol olacak: Admin ve Kullanıcı."
+      - "Admin birden fazla depo oluşturabilir."
+      - "Admin ürün, malzeme ve araç-gereç ekleyebilir; birim belirleyebilir (adet, metre, kg vb)."
+      - "Araç-gereçler kullanıcılara zimmetlenebilir ve iade edilene kadar zimmetli kalır."
+      - "Admin müşteri + hizmet seçerek iş emri oluşturabilir."
+      - "Teknik servis formu müşteri + hizmet bilgileriyle otomatik doldurulmalıdır."
+      - "Kullanıcı fotoğraf yükleyebilir (öncesi/sonrası)."
+      - "Kullanıcı iş durumunu güncelleyebilir (Beklemede → İşlemde → Tamamlandı)."
+      - "Kullanıcı ‘İşlemde’ye aldığında cihazın konumu otomatik alınmalıdır."
+      - "Tamamlanan her iş için otomatik fatura taslağı oluşturulmalıdır."
+
+  - name: Mesaj & Bildirim Kuralları
+    description: WhatsApp + E-posta bildirim akışı zorunludur.
+    match: "**/*"
+    expect:
+      - "Yeni iş emri → Kullanıcıya WhatsApp + E-posta gönder."
+      - "İş durumu değiştiğinde → Admin’e WhatsApp + E-posta gönder."
+      - "WhatsApp API sağlayıcısı değişebilir ancak bildirim sistemi zorunludur."
+      - "Gelecekte e-imza entegrasyonu yapılabilmelidir."
+
+  - name: UI/UX Kuralları
+    description: Arayüz standartları aşağıdaki gibi olmalıdır.
+    match: "**/*"
+    expect:
+      - "Tasarım TailwindCSS ile yapılacak."
+      - "shadcn/ui bileşenleri kullanılacak."
+      - "Arayüz tamamen duyarlı (responsive) ve mobil öncelikli (mobile-first) olacak."
+      - "Admin Dashboard ve Kullanıcı Dashboard ayrı tasarlanacak."
+
+  - name: Taviz Yok Politikası
+    description: Bu kurallar hiçbir koşulda değiştirilemez.
+    match: "**/*"
+    expect:
+      - "Framework değiştirilemez (Next.js 16 zorunludur)."
+      - "Veritabanı sağlayıcısı değiştirilemez (Supabase zorunludur)."
+      - "GitHub repo adresi değiştirilemez."
+      - "Herhangi bir zorlukta çözüm farklı yöntemle bulunur ama kurallar DEĞİŞMEZ."
+      - "Çalışmayan hiçbir özellik olmayacak.işlevselliği tam olarak sağlayacak."
+      - "Özellikler tamamen modüler ve yeniden kullanılabilir olacak."
+      - "Özellikler tamamen DRY (Don't Repeat Yourself) prensibi ile tasarlanacak."
+      - "Özellikler tamamen test edilebilir ve güvenilir olacak."
+      - "Özellikler tamamen dokümante edilebilir ve anlaşılır olacak."
+      - "Özellikler tamamen performanslı ve hızlı olacak."
+      - "Özellikler tamamen güvenli ve güvenilir olacak."
+      - "Özellikler tamamen uyumlu ve uyumlu olacak."
+      - "Özellikler tamamen kullanıcı dostu ve kullanıcı dostu olacak."
+      - "Özellikler tamamen geliştirilebilir olacak."
+      - "eğer sayfada aynı yapıda birden fazla data varsa bu tabloyla listelenecek."
+      - "tablo olan her sayfada pagination olacak."
+      - "tablo olan her sayfada search olacak."
+      - "tablo olan her sayfada filter olacak."
+      - "tablo olan her sayfada sort olacak."
+      - "tablo olan her sayfada export olacak."
+      - "tablo olan her sayfada import olacak."
+      - "tablo olan her sayfada print olacak."
