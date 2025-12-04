@@ -3,7 +3,11 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { GoogleMapsProvider } from "@/components/maps/GoogleMapsProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: 'swap', // Font loading optimization
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: "Saha İş Takip Sistemi",

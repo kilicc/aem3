@@ -4,8 +4,13 @@ import { createClient } from "@/lib/supabase/server";
 import AppLayout from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import WorkCalendar from "@/components/dashboard/WorkCalendar";
+import dynamic from "next/dynamic";
 import { Clock, CheckCircle2, AlertCircle, FileText, Calendar as CalendarIcon, Bell } from "lucide-react";
+
+// WorkCalendar'ı lazy load et
+const WorkCalendar = dynamic(() => import("@/components/dashboard/WorkCalendar"), {
+  loading: () => <div className="h-64 flex items-center justify-center">Yükleniyor...</div>,
+});
 
 // Cache için revalidate süresi (60 saniye)
 export const revalidate = 60;
@@ -21,11 +26,14 @@ export default async function DashboardPage() {
   }
 
   // Normal user için devam et
-  // Kullanıcının iş emirlerini getir
+  // Kullanıcının iş emirlerini getir - sadece gerekli alanlar
   const { data: workOrders } = await supabase
     .from("work_orders")
     .select(`
-      *,
+      id,
+      order_number,
+      status,
+      created_at,
       customer:customers!work_orders_customer_id_fkey(id, name)
     `)
     .contains("assigned_to", [user.id])
@@ -43,10 +51,10 @@ export default async function DashboardPage() {
   const inProgressCount = workOrders?.filter((wo) => wo.status === "in_progress").length || 0;
   const completedCount = workOrders?.filter((wo) => wo.status === "completed").length || 0;
 
-  // Son bildirimleri getir
+  // Son bildirimleri getir - sadece gerekli alanlar
   const { data: recentNotifications } = await supabase
     .from("notifications")
-    .select("*")
+    .select("id, title, message, is_read, sent_at")
     .eq("user_id", user.id)
     .order("sent_at", { ascending: false })
     .limit(5);

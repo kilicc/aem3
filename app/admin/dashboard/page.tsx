@@ -1,16 +1,29 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import AppLayout from "@/components/layout/AppLayout";
-
-// Cache için revalidate süresi (60 saniye)
-export const revalidate = 60;
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import AdminDashboardCharts from "@/components/dashboard/AdminDashboardCharts";
-import WorkCalendar from "@/components/dashboard/WorkCalendar";
-import CustomerMap from "@/components/maps/CustomerMap";
+import dynamic from "next/dynamic";
 import { TrendingUp, TrendingDown, Users, Package, ClipboardList, Calendar, AlertCircle, CheckCircle2, Clock, Bell } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+
+// Cache için revalidate süresi (60 saniye)
+export const revalidate = 60;
+
+// Heavy components'i lazy load et
+const AdminDashboardCharts = dynamic(() => import("@/components/dashboard/AdminDashboardCharts"), {
+  loading: () => <div className="h-64 flex items-center justify-center">Yükleniyor...</div>,
+  ssr: false,
+});
+
+const WorkCalendar = dynamic(() => import("@/components/dashboard/WorkCalendar"), {
+  loading: () => <div className="h-64 flex items-center justify-center">Yükleniyor...</div>,
+});
+
+const CustomerMap = dynamic(() => import("@/components/maps/CustomerMap"), {
+  loading: () => <div className="h-64 flex items-center justify-center">Yükleniyor...</div>,
+  ssr: false,
+});
 
 export default async function AdminDashboardPage() {
   // Middleware'de auth ve admin kontrolü yapılıyor, buraya sadece admin'ler gelir
@@ -30,6 +43,7 @@ export default async function AdminDashboardPage() {
   let customersWithLocation: any[] = [];
 
   try {
+    // Sadece gerekli alanları çek - performans için
     const [
       workOrdersResult,
       customersResult,
@@ -38,13 +52,16 @@ export default async function AdminDashboardPage() {
       customersWithLocationResult,
     ] = await Promise.all([
       supabase.from("work_orders").select(`
-        *,
+        id,
+        order_number,
+        status,
+        created_at,
         customer:customers!work_orders_customer_id_fkey(id, name)
       `).order("created_at", { ascending: false }),
-      supabase.from("customers").select("*"),
-      supabase.from("warehouses").select("*"),
-      supabase.from("profiles").select("*"),
-      supabase.from("customers").select("id, name, address, city, district, latitude, longitude"),
+      supabase.from("customers").select("id, name, created_at"),
+      supabase.from("warehouses").select("id, name, created_at"),
+      supabase.from("profiles").select("id, full_name, role, created_at"),
+      supabase.from("customers").select("id, name, address, city, district, latitude, longitude").not("address", "is", null),
     ]);
 
     workOrders = workOrdersResult.data || [];
@@ -53,9 +70,8 @@ export default async function AdminDashboardPage() {
     users = usersResult.data || [];
     // Adres bilgisi olan tüm müşterileri gönder (geocoding için)
     // Koordinat bilgisi olanları da dahil et
-    customersWithLocation = (customersWithLocationResult.data || []).filter(
-      (c: any) => c.address && c.address.trim() !== ""
-    );
+    // Zaten null olmayanları çektik, ekstra filter gerekmez
+    customersWithLocation = customersWithLocationResult.data || [];
   } catch (error) {
     // Hata durumunda boş array'ler kullan
     console.error("Dashboard veri çekme hatası:", error);

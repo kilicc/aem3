@@ -19,7 +19,10 @@ const nextConfig = {
   // Experimental features for better performance
   experimental: {
     optimizeCss: true,
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
+  // SWC minification
+  swcMinify: true,
   // Headers for caching
   async headers() {
     return [

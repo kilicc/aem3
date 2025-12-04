@@ -12,7 +12,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     return null;
   }
 
-  // Profile'ı güvenli şekilde oku
+  // Profile'ı güvenli şekilde oku - sadece gerekli alan
   const { data: profile, error } = await supabase
     .from("profiles")
     .select("role")

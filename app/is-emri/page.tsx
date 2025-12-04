@@ -33,11 +33,17 @@ export default async function WorkOrdersPage({
   const search = resolvedParams.search || "";
   const perPage = 10;
 
+  // Sadece gerekli alanları çek - performans için
   let query = supabase
     .from("work_orders")
     .select(
       `
-      *,
+      id,
+      order_number,
+      status,
+      created_at,
+      started_at,
+      completed_at,
       customer:customers!work_orders_customer_id_fkey(id, name, phone),
       service:services!work_orders_service_id_fkey(id, name)
     `,
