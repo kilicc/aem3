@@ -23,6 +23,11 @@ const nextConfig = {
   },
   // SWC minification
   swcMinify: true,
+  // Prefetch optimization
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
   // Headers for caching
   async headers() {
     return [

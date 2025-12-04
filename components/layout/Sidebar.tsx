@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect, useTransition } from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import {
@@ -70,6 +70,8 @@ const adminItems: NavItem[] = [
 
 export default function Sidebar({ role }: { role: string }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const [isCollapsed, setIsCollapsed] = useState(true); // Mobilde varsayılan kapalı
   const [isMobile, setIsMobile] = useState(false);
   const [userProfile, setUserProfile] = useState<any>(null);
@@ -232,14 +234,25 @@ export default function Sidebar({ role }: { role: string }) {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
                 className={cn(
                   "group flex items-center gap-3 rounded-xl px-3 py-3 text-sm md:text-base font-medium transition-all duration-200 relative overflow-hidden",
                   isActive
                     ? "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/30 scale-[1.02]"
-                    : "text-gray-300 hover:bg-gray-800/70 hover:text-white hover:scale-[1.01] hover:shadow-md"
+                    : "text-gray-300 hover:bg-gray-800/70 hover:text-white hover:scale-[1.01] hover:shadow-md",
+                  isPending && pathname !== item.href && "opacity-50"
                 )}
                 title={isCollapsed ? item.title : undefined}
-                onClick={() => isMobile && setIsCollapsed(true)}
+                onClick={(e) => {
+                  if (isMobile) {
+                    setIsCollapsed(true);
+                  }
+                  if (item.href !== pathname) {
+                    startTransition(() => {
+                      router.push(item.href);
+                    });
+                  }
+                }}
               >
                 {isActive && (
                   <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-red-600/20 animate-pulse" />
@@ -276,13 +289,22 @@ export default function Sidebar({ role }: { role: string }) {
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={true}
                     className={cn(
                       "group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-200",
                       isActive
                         ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30"
-                        : "text-gray-300 hover:bg-gray-800/70 hover:text-white"
+                        : "text-gray-300 hover:bg-gray-800/70 hover:text-white",
+                      isPending && pathname !== item.href && "opacity-50"
                     )}
                     title={isCollapsed ? item.title : undefined}
+                    onClick={(e) => {
+                      if (item.href !== pathname) {
+                        startTransition(() => {
+                          router.push(item.href);
+                        });
+                      }
+                    }}
                   >
                     <Icon className="h-5 w-5 flex-shrink-0" />
                     {!isCollapsed && <span>{item.title}</span>}
