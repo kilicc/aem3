@@ -12,7 +12,8 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "demo:notifications": "tsx scripts/add-demo-notifications.ts",
-    "demo:notifications:all": "tsx scripts/add-demo-notifications-to-current-user.ts"
+    "demo:notifications:all": "tsx scripts/add-demo-notifications-to-current-user.ts",
+    "clear:data": "tsx scripts/clear-all-data-safe.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

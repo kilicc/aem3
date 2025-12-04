@@ -27,6 +27,7 @@ import {
   BarChart3,
   Home,
   Car,
+  Key,
 } from "lucide-react";
 import { signOut } from "@/modules/auth/actions/auth";
 import { Button } from "@/components/ui/button";

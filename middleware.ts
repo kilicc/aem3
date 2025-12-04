@@ -57,7 +57,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Public routes - auth gerektirmez
-  const publicRoutes = ["/auth/login"];
+  const publicRoutes = ["/auth/login", "/auth/change-password"];
   const isPublicRoute = publicRoutes.includes(pathname);
 
   // Session'ı refresh et
