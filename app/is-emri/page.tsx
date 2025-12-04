@@ -6,6 +6,9 @@ import Link from "next/link";
 import { Plus, Calendar } from "lucide-react";
 import WorkOrdersTable from "@/modules/is-emri/components/WorkOrdersTable";
 
+// Cache için revalidate süresi (30 saniye)
+export const revalidate = 30;
+
 export default async function WorkOrdersPage({
   searchParams,
 }: {

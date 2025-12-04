@@ -1,3 +1,4 @@
+
 # 🌐 cPanel DNS Ayarları - Vercel Deployment
 
 Vercel'e deploy ettikten sonra, custom domain'inizi (`planlama.aemakgun.com.tr`) Vercel'e yönlendirmek için cPanel'de DNS ayarları yapmanız gerekiyor.

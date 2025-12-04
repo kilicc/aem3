@@ -3,6 +3,9 @@ import { createClient } from "@/lib/supabase/server";
 import AppLayout from "@/components/layout/AppLayout";
 import NotificationsList from "@/modules/bildirim/components/NotificationsList";
 
+// Cache için revalidate süresi (10 saniye - bildirimler daha sık güncellenmeli)
+export const revalidate = 10;
+
 export default async function NotificationsPage({
   searchParams,
 }: {

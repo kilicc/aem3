@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import AppLayout from "@/components/layout/AppLayout";
+
+// Cache için revalidate süresi (60 saniye)
+export const revalidate = 60;
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import AdminDashboardCharts from "@/components/dashboard/AdminDashboardCharts";
 import WorkCalendar from "@/components/dashboard/WorkCalendar";

@@ -6,6 +6,9 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import CustomersTable from "@/modules/musteri/components/CustomersTable";
 
+// Cache için revalidate süresi (30 saniye)
+export const revalidate = 30;
+
 export default async function CustomersPage({
   searchParams,
 }: {

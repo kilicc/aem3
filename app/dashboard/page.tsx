@@ -7,6 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import WorkCalendar from "@/components/dashboard/WorkCalendar";
 import { Clock, CheckCircle2, AlertCircle, FileText, Calendar as CalendarIcon, Bell } from "lucide-react";
 
+// Cache için revalidate süresi (60 saniye)
+export const revalidate = 60;
+
 export default async function DashboardPage() {
   // Middleware'de auth kontrolü yapılıyor, buraya sadece user'lar gelir
   const supabase = await createClient();

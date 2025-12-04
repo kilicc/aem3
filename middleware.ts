@@ -54,14 +54,14 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // Session'ı refresh et
-  const { data: { user } } = await supabase.auth.getUser();
-
   const { pathname } = request.nextUrl;
 
   // Public routes - auth gerektirmez
   const publicRoutes = ["/auth/login"];
   const isPublicRoute = publicRoutes.includes(pathname);
+
+  // Session'ı refresh et
+  const { data: { user } } = await supabase.auth.getUser();
 
   // Login sayfasında kullanıcı varsa dashboard'a yönlendir
   if (pathname === "/auth/login" && user) {
