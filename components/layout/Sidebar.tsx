@@ -332,13 +332,22 @@ export default function Sidebar({ role }: { role: string }) {
                 return (
                   <Link
                     href={vehicleReportItem.href}
+                    prefetch={true}
                     className={cn(
                       "group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-200",
                       isActive
                         ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/30"
-                        : "text-gray-300 hover:bg-gray-800/70 hover:text-white"
+                        : "text-gray-300 hover:bg-gray-800/70 hover:text-white",
+                      isPending && pathname !== vehicleReportItem.href && "opacity-50"
                     )}
                     title={isCollapsed ? vehicleReportItem.title : undefined}
+                    onClick={(e) => {
+                      if (vehicleReportItem.href !== pathname) {
+                        startTransition(() => {
+                          router.push(vehicleReportItem.href);
+                        });
+                      }
+                    }}
                   >
                     <Icon className="h-5 w-5 flex-shrink-0" />
                     {!isCollapsed && <span>{vehicleReportItem.title}</span>}
@@ -354,13 +363,22 @@ export default function Sidebar({ role }: { role: string }) {
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={true}
                     className={cn(
                       "group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-200",
                       isActive
                         ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/30"
-                        : "text-gray-300 hover:bg-gray-800/70 hover:text-white"
+                        : "text-gray-300 hover:bg-gray-800/70 hover:text-white",
+                      isPending && pathname !== item.href && "opacity-50"
                     )}
                     title={isCollapsed ? item.title : undefined}
+                    onClick={(e) => {
+                      if (item.href !== pathname) {
+                        startTransition(() => {
+                          router.push(item.href);
+                        });
+                      }
+                    }}
                   >
                     <Icon className="h-5 w-5 flex-shrink-0" />
                     {!isCollapsed && <span>{item.title}</span>}
