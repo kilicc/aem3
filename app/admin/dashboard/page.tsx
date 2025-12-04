@@ -125,10 +125,10 @@ export default async function AdminDashboardPage() {
   // Son iş emirleri (5 adet)
   const recentWorkOrders = workOrdersForCalendar.slice(0, 5);
 
-  // Son bildirimleri getir
+  // Son bildirimleri getir - sadece gerekli alanlar
   const { data: recentNotifications } = await supabase
     .from("notifications")
-    .select("*")
+    .select("id, title, message, is_read, sent_at")
     .eq("user_id", user.id)
     .order("sent_at", { ascending: false })
     .limit(5);
