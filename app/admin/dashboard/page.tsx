@@ -10,10 +10,9 @@ import { Button } from "@/components/ui/button";
 // Cache için revalidate süresi (60 saniye)
 export const revalidate = 60;
 
-// Heavy components'i lazy load et
+// Heavy components'i lazy load et (ssr: false sadece client component'lerde kullanılabilir)
 const AdminDashboardCharts = dynamic(() => import("@/components/dashboard/AdminDashboardCharts"), {
   loading: () => <div className="h-64 flex items-center justify-center">Yükleniyor...</div>,
-  ssr: false,
 });
 
 const WorkCalendar = dynamic(() => import("@/components/dashboard/WorkCalendar"), {
@@ -22,7 +21,6 @@ const WorkCalendar = dynamic(() => import("@/components/dashboard/WorkCalendar")
 
 const CustomerMap = dynamic(() => import("@/components/maps/CustomerMap"), {
   loading: () => <div className="h-64 flex items-center justify-center">Yükleniyor...</div>,
-  ssr: false,
 });
 
 export default async function AdminDashboardPage() {
