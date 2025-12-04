@@ -413,6 +413,32 @@ export default function Sidebar({ role }: { role: string }) {
             </div>
           )}
 
+          {/* Şifre Değiştir Link */}
+          <Link
+            href="/auth/change-password"
+            prefetch={true}
+            className={cn(
+              "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 mb-2",
+              pathname === "/auth/change-password"
+                ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30"
+                : "text-gray-300 hover:bg-gray-800/70 hover:text-white"
+            )}
+            title={isCollapsed ? "Şifre Değiştir" : undefined}
+            onClick={() => {
+              if (isMobile) {
+                setIsCollapsed(true);
+              }
+              if ("/auth/change-password" !== pathname) {
+                startTransition(() => {
+                  router.push("/auth/change-password");
+                });
+              }
+            }}
+          >
+            <Key className="h-4 w-4 flex-shrink-0" />
+            {!isCollapsed && <span>Şifre Değiştir</span>}
+          </Link>
+
           {/* Çıkış Butonu */}
           <form action={signOut}>
             <button
