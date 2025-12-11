@@ -1,0 +1,210 @@
+================================================================================
+PERSONEL KULLANICI HESAPLARI
+================================================================================
+
+Oluşturma Tarihi: 11.12.2025 05:26:35
+Toplam Kullanıcı: 24
+
+================================================================================
+
+1. ABDUL CELİL GÜREL
+   Personel No: 5
+   E-posta: Celilgurel100877@gmail.com
+   Şifre: AG0005!
+   Telefon: 5392063566
+
+--------------------------------------------------------------------------------
+
+2. AKIN TEKİNER
+   Personel No: 9
+   E-posta: tekinerakin38@gmail.com
+   Şifre: AT0009!
+   Telefon: 5354987216
+
+--------------------------------------------------------------------------------
+
+3. ARDA GÜRŞAY
+   Personel No: 16
+   E-posta: ardagursay@gmail.com
+   Şifre: AG0016!
+   Telefon: 5392234241
+
+--------------------------------------------------------------------------------
+
+4. AYTEKİN ÖZKAPLAN
+   Personel No: 6
+   E-posta: aytekinozkaplan@gmail.com
+   Şifre: AÖ0006!
+   Telefon: 5525491689
+
+--------------------------------------------------------------------------------
+
+5. BERKAY BAYLAN
+   Personel No: 17
+   E-posta: baylanberkay35@gmail.com
+   Şifre: BB0017!
+   Telefon: 5337751079
+
+--------------------------------------------------------------------------------
+
+6. EBRAR SU CAN
+   Personel No: 19
+   E-posta: ebrarsucan14@gmail.com
+   Şifre: EC0019!
+   Telefon: 5467362005
+
+--------------------------------------------------------------------------------
+
+7. EKREM BAL
+   Personel No: 12
+   E-posta: Bal98846@gmail.com
+   Şifre: EB0012!
+   Telefon: 5060526710
+
+--------------------------------------------------------------------------------
+
+8. FATMA İMAMOĞLU
+   Personel No: 27
+   E-posta: fatmaimam35@gmail.com
+   Şifre: Fİ0027!
+   Telefon: 5357711259
+
+--------------------------------------------------------------------------------
+
+9. HALİL YEŞİL
+   Personel No: 20
+   E-posta: halil.yesil@aemakgun.com.tr
+   Şifre: HY0020!
+   Telefon: 5377454437
+
+--------------------------------------------------------------------------------
+
+10. HÜSEYİN İMAMOĞLU
+   Personel No: 26
+   E-posta: imamogluhuseyin35@gmail.com
+   Şifre: Hİ0026!
+   Telefon: 5385086444
+
+--------------------------------------------------------------------------------
+
+11. HÜSEYİN SARI
+   Personel No: 18
+   E-posta: huseyinsarimail@gmail.com
+   Şifre: HS0018!
+   Telefon: 5314307225
+
+--------------------------------------------------------------------------------
+
+12. İREM AKGÜN
+   Personel No: 21
+   E-posta: irem.akgun@aemakgun.com.tr
+   Şifre: İA0021!
+   Telefon: 5326250255
+
+--------------------------------------------------------------------------------
+
+13. İSA ÇELEN
+   Personel No: 22
+   E-posta: isa.celen@aemakgun.com.tr
+   Şifre: İÇ0022!
+   Telefon: 5398206273
+
+--------------------------------------------------------------------------------
+
+14. İSMAİL KESKİN
+   Personel No: 23
+   E-posta: ismail.keskin.201818@gmail.com
+   Şifre: İK0023!
+   Telefon: 5396062728
+
+--------------------------------------------------------------------------------
+
+15. İSMİHAN ÇELİK
+   Personel No: 24
+   E-posta: ismahan3534@gmail.com
+   Şifre: İÇ0024!
+   Telefon: 5449400787
+
+--------------------------------------------------------------------------------
+
+16. METEHAN SEFA KARADAĞ
+   Personel No: 7
+   E-posta: metehanskaradag@gmail.com
+   Şifre: MK0007!
+   Telefon: 5321307251
+
+--------------------------------------------------------------------------------
+
+17. MURAT EDİZ
+   Personel No: 15
+   E-posta: muratedizz6@gmail.com
+   Şifre: ME0015!
+   Telefon: 5376050487
+
+--------------------------------------------------------------------------------
+
+18. MUSTAFA ŞENGÜL
+   Personel No: 10
+   E-posta: mute.2109@gmail.com
+   Şifre: MŞ0010!
+   Telefon: 5069284689
+
+--------------------------------------------------------------------------------
+
+19. NEVZAT ÖZARSLAN
+   Personel No: 2
+   E-posta: nevzat.ozarslann@gmail.com
+   Şifre: NÖ0002!
+   Telefon: 5525491692
+
+--------------------------------------------------------------------------------
+
+20. RECEP TOKA
+   Personel No: 8
+   E-posta: tokarecep@gmail.com
+   Şifre: RT0008!
+   Telefon: 5543472146
+
+--------------------------------------------------------------------------------
+
+21. SADETTİN PEHLİVAN
+   Personel No: 14
+   E-posta: sadettinpehlivan00@gmail.com
+   Şifre: SP0014!
+   Telefon: 5366755365
+
+--------------------------------------------------------------------------------
+
+22. ŞENGÜL AKGÜN
+   Personel No: 25
+   E-posta: sengul.akgun@aemakgun.com.tr
+   Şifre: ŞA0025!
+   Telefon: 5550061689
+
+--------------------------------------------------------------------------------
+
+23. UĞUR CENGİZ
+   Personel No: 11
+   E-posta: ugur3584@hotmail.com
+   Şifre: UC0011!
+   Telefon: 5447942968
+
+--------------------------------------------------------------------------------
+
+24. ZAFER BULUT
+   Personel No: 13
+   E-posta: zaferb141275@gmail.com
+   Şifre: ZB0013!
+   Telefon: 5053378754
+
+--------------------------------------------------------------------------------
+
+
+================================================================================
+ÖNEMLİ NOTLAR:
+================================================================================
+1. Bu dosyayı güvenli bir yerde saklayın.
+2. İlk girişte kullanıcıların şifrelerini değiştirmeleri önerilir.
+3. Şifre formatı: İlkAdİlkSoyad4Rakam! (örn: AA1234!)
+4. Tüm kullanıcılar 'user' rolü ile oluşturulmuştur.
+================================================================================
