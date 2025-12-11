@@ -15,7 +15,9 @@
     "demo:notifications:all": "tsx scripts/add-demo-notifications-to-current-user.ts",
     "clear:data": "tsx scripts/clear-all-data-safe.ts",
     "import:excel": "tsx scripts/import-excel-data.ts",
-    "create:employee-users": "tsx scripts/create-users-for-employees.ts"
+    "create:employee-users": "tsx scripts/create-users-for-employees.ts",
+    "setup": "bash scripts/setup.sh",
+    "setup:windows": "powershell -ExecutionPolicy Bypass -File scripts/setup.ps1"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
