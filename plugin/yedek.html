@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auction Helper</title>
+  <script src="popup.js" defer></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f3f4f6;
+    }
+    .container {
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 90px;
+      width: 100%;
+      max-width: 800px;
+      height: 100px; /* Yüksekliği daha da azaltıldı */
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      /*gap: 40px;*/
+      margin-left: 20px;
+    }
+    .section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      flex: 1;
+    }
+    .section h1 {
+      text-align: center;
+      color: #f59e0b;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+    .form-group {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #4b5563;
+      margin-bottom: 8px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      outline: none;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus {
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+    }
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+    .button-group button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .button-group .start {
+      background-color: #f59e0b;
+      color: white;
+    }
+    .button-group .start:hover {
+      background-color: #d97706;
+    }
+    .button-group .stop {
+      background-color: #9ca3af;
+      color: white;
+    }
+    .button-group .stop:hover {
+      background-color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="section">
+      <h1>MS</h1>
+      <div class="form-group">
+        <label for="max-bid">Maksimum Teklif</label>
+        <input type="number" id="max-bid" placeholder="Maksimum teklif girin">
+      </div>
+      <div class="form-group">
+        <label for="bid-increment">Teklif Artırma Fiyatı</label>
+        <input type="number" id="bid-increment" placeholder="Artırma fiyatı girin">
+      </div>
+    </div>
+    <div class="section">
+      <div class="form-group">
+        <label for="end-time">İhale Bitiş Saati</label>
+        <input type="datetime-local" id="end-time">
+      </div>
+      <div class="form-group">
+        <label for="last-ms">Son Milisaniye Ayarı</label>
+        <input type="number" id="last-ms" placeholder="Milisaniye girin">
+      </div>
+    </div>
+    <div class="section">
+      <div class="button-group">
+        <button type="button" id="start-extension" class="start">Başlat</button>
+        <button type="button" id="stop-extension" class="stop">Durdur</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

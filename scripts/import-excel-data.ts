@@ -310,61 +310,165 @@ async function importEmployees() {
         const salary = parseNumber(row[21]);
         const status = row[22]?.toString().trim() || "AKTİF";
         
+        // Ad ve soyad kontrolü
         if (!firstName || !lastName) {
           errors.push(`Satır ${rowNum}: Ad ve Soyad zorunludur`);
           errorCount++;
           continue;
         }
         
-        // TC kimlik no varsa kontrol et
+        // Boş satır kontrolü
+        if (firstName.trim() === "" && lastName.trim() === "") {
+          console.log(`⏭️  Satır ${rowNum}: Boş satır, atlanıyor...`);
+          continue;
+        }
+        
+        // Cinsiyet normalize et
+        let normalizedGender = null;
+        if (gender) {
+          const genderLower = gender.toLowerCase().trim();
+          if (genderLower.includes("erkek") || genderLower.includes("male")) normalizedGender = "erkek";
+          else if (genderLower.includes("kadın") || genderLower.includes("female")) normalizedGender = "kadın";
+        }
+        
+        // Medeni durum normalize et
+        let normalizedMaritalStatus = null;
+        if (maritalStatus) {
+          const statusLower = maritalStatus.toLowerCase().trim();
+          if (statusLower.includes("bekar") || statusLower.includes("single")) normalizedMaritalStatus = "bekar";
+          else if (statusLower.includes("evli") || statusLower.includes("married")) normalizedMaritalStatus = "evli";
+          else if (statusLower.includes("boşanmış") || statusLower.includes("divorced")) normalizedMaritalStatus = "boşanmış";
+          else if (statusLower.includes("dul") || statusLower.includes("widowed")) normalizedMaritalStatus = "dul";
+        }
+        
+        // Kan grubu normalize et
+        let normalizedBloodType = null;
+        if (bloodType) {
+          const blood = bloodType.toString().trim().toUpperCase().replace(/\s+/g, "");
+          if (blood.match(/^[AB0]\+$/)) normalizedBloodType = blood;
+          else if (blood.match(/^[AB0]-$/)) normalizedBloodType = blood;
+          else if (blood.match(/^0RH\+$/)) normalizedBloodType = "0+";
+          else if (blood.match(/^0RH-$/)) normalizedBloodType = "0-";
+          else if (blood.match(/^A\+$/)) normalizedBloodType = "A+";
+          else if (blood.match(/^A-$/)) normalizedBloodType = "A-";
+          else if (blood.match(/^B\+$/)) normalizedBloodType = "B+";
+          else if (blood.match(/^B-$/)) normalizedBloodType = "B-";
+          else if (blood.match(/^AB\+$/)) normalizedBloodType = "AB+";
+          else if (blood.match(/^AB-$/)) normalizedBloodType = "AB-";
+        }
+        
+        // Durum normalize et
+        const isActive = status?.toUpperCase().includes("AKTİF") || status?.toUpperCase().includes("ACTIVE") || false;
+        
+        // Mevcut kaydı kontrol et (TC kimlik, personel no veya ad-soyad ile)
+        let existingEmployee = null;
+        
+        // Önce TC kimlik ile kontrol et
         if (tcIdentity) {
           const { data: existing } = await adminClient
             .from("employees")
             .select("id")
             .eq("tc_identity_number", tcIdentity.toString().trim())
             .single();
-          
-          if (existing) {
-            console.log(`⚠️  Satır ${rowNum}: TC ${tcIdentity} zaten kayıtlı, atlanıyor...`);
-            continue;
-          }
+          if (existing) existingEmployee = existing;
         }
         
-        // Personel numarası varsa kontrol et
-        if (employeeNumber) {
+        // Personel no ile kontrol et
+        if (!existingEmployee && employeeNumber) {
           const { data: existing } = await adminClient
             .from("employees")
             .select("id")
             .eq("employee_number", employeeNumber.toString().trim())
             .single();
-          
-          if (existing) {
-            console.log(`⚠️  Satır ${rowNum}: Personel No ${employeeNumber} zaten kayıtlı, atlanıyor...`);
-            continue;
-          }
+          if (existing) existingEmployee = existing;
         }
         
-        const { error } = await adminClient
-          .from("employees")
-          .insert({
-            first_name: firstName.trim(),
-            last_name: lastName.trim(),
-            tc_identity_number: tcIdentity?.toString().trim() || null,
-            phone: phone?.toString().trim() || null,
-            email: email?.toString().trim() || null,
-            department: department?.toString().trim() || null,
-            position: position?.toString().trim() || null,
-            employee_number: employeeNumber?.toString().trim() || null,
-            hire_date: hireDate,
-            is_active: true,
-            created_by: adminUser.id,
-          });
+        // Ad-soyad ile kontrol et (son çare)
+        if (!existingEmployee && firstName && lastName) {
+          const { data: existing } = await adminClient
+            .from("employees")
+            .select("id")
+            .eq("first_name", firstName.trim())
+            .eq("last_name", lastName.trim())
+            .limit(1)
+            .single();
+          if (existing) existingEmployee = existing;
+        }
+        
+        // Tüm alanları eksiksiz hazırla
+        const employeeData = {
+          // Kişisel Bilgiler
+          employee_number: employeeNumber?.toString().trim() || null,
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          tc_identity_number: tcIdentity?.toString().trim() || null,
+          birth_date: birthDate,
+          birth_place: birthPlace?.toString().trim() || null,
+          gender: normalizedGender,
+          marital_status: normalizedMaritalStatus,
+          blood_type: normalizedBloodType,
+          
+          // İletişim Bilgileri
+          phone: phone?.toString().trim() || null,
+          email: email?.toString().trim() || null,
+          city: city?.toString().trim() || null,
+          district: district?.toString().trim() || null,
+          address: address?.toString().trim() || null,
+          postal_code: null, // Excel'de yok
+          
+          // Acil Durum İletişim
+          emergency_contact_name: emergencyContactName?.toString().trim() || null,
+          emergency_contact_phone: emergencyContactPhone?.toString().trim() || null,
+          emergency_contact_relation: emergencyContactRelation?.toString().trim() || null,
+          
+          // İş Bilgileri
+          hire_date: hireDate,
+          termination_date: terminationDate,
+          department: department?.toString().trim() || null,
+          position: position?.toString().trim() || null,
+          salary: salary,
+          is_active: isActive,
+        };
+        
+        let error;
+        if (existingEmployee) {
+          // Mevcut kaydı güncelle (tüm alanları)
+          console.log(`🔄 Satır ${rowNum}: ${firstName} ${lastName} - Mevcut kayıt güncelleniyor...`);
+          const { error: updateError } = await adminClient
+            .from("employees")
+            .update(employeeData)
+            .eq("id", existingEmployee.id);
+          error = updateError;
+        } else {
+          // Yeni kayıt oluştur
+          const { error: insertError } = await adminClient
+            .from("employees")
+            .insert({
+              ...employeeData,
+              // Excel'de olmayan alanlar (null olarak bırak)
+              bank_name: null,
+              bank_account_number: null,
+              iban: null,
+              driving_license_number: null,
+              driving_license_class: null,
+              education_level: null,
+              school_name: null,
+              graduation_year: null,
+              notes: null,
+              created_by: adminUser.id,
+            });
+          error = insertError;
+        }
         
         if (error) {
           errors.push(`Satır ${rowNum} (${firstName || ""} ${lastName || ""}): ${error.message}`);
           errorCount++;
         } else {
-          console.log(`✅ Satır ${rowNum}: ${firstName} ${lastName} eklendi`);
+          if (existingEmployee) {
+            console.log(`✅ Satır ${rowNum}: ${firstName} ${lastName} - Tüm bilgiler güncellendi`);
+          } else {
+            console.log(`✅ Satır ${rowNum}: ${firstName} ${lastName} - Yeni kayıt eklendi`);
+          }
           successCount++;
         }
       } catch (err: any) {
