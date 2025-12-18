@@ -138,7 +138,7 @@ async function importCustomers() {
         }
         
         // Notes alanını oluştur (Kod varsa)
-        let notes = "";
+        let notes: string | null = "";
         if (kod) notes += `Kod: ${kod}`;
         // T.C. Kimlik No varsa ve VKN yoksa, tax_id'ye ekle
         if (tcKimlik && !vkn) {

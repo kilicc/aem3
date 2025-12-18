@@ -48,6 +48,7 @@ const navItems: NavItem[] = [
   { title: "Müşteriler", href: "/musteri", icon: Users, adminOnly: true },
   { title: "Araç Bakım", href: "/arac-bakim", icon: Car, adminOnly: true },
   { title: "Personel", href: "/calisanlar", icon: User, adminOnly: true },
+  { title: "YEGİS", href: "/yegis", icon: FileText, adminOnly: true },
 ];
 
 // Araç kullanım raporu menü öğesi (sadece yönetici roller için)
@@ -67,6 +68,7 @@ const userNavItems: NavItem[] = [
 const adminItems: NavItem[] = [
   { title: "Kullanıcılar", href: "/admin/users", icon: Users },
   { title: "Kategoriler", href: "/admin/categories", icon: Package },
+  { title: "YEGİS", href: "/yegis", icon: FileText },
 ];
 
 export default function Sidebar({ role }: { role: string }) {
