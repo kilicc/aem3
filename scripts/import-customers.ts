@@ -64,6 +64,15 @@ async function importCustomers() {
     let updatedCount = 0;
     let skippedCount = 0;
     const errors: string[] = [];
+    const skippedRecords: Array<{
+      row: number;
+      name: string;
+      reason: string;
+      kod?: string;
+      vkn?: string;
+      phone?: string;
+      address?: string;
+    }> = [];
     
     // Admin kullanıcısını bul
     const { data: adminUser } = await adminClient
@@ -97,13 +106,33 @@ async function importCustomers() {
         
         // Zorunlu alanlar
         if (!name) {
-          errors.push(`Satır ${rowNum}: Ünvan zorunludur`);
+          const reason = "Ünvan zorunludur";
+          errors.push(`Satır ${rowNum}: ${reason}`);
+          skippedRecords.push({
+            row: rowNum,
+            name: "Ünvan Yok",
+            reason,
+            kod: kod || undefined,
+            vkn: vkn || undefined,
+            phone: row["Telefon"]?.toString().trim() || undefined,
+            address: address || undefined,
+          });
           errorCount++;
           continue;
         }
         
         if (!phone && !address) {
-          errors.push(`Satır ${rowNum}: Telefon veya Adres zorunludur`);
+          const reason = "Telefon ve Adres bilgisi eksik (en az biri zorunlu)";
+          errors.push(`Satır ${rowNum}: ${reason}`);
+          skippedRecords.push({
+            row: rowNum,
+            name: name,
+            reason,
+            kod: kod || undefined,
+            vkn: vkn || undefined,
+            phone: row["Telefon"]?.toString().trim() || undefined,
+            address: address || undefined,
+          });
           errorCount++;
           continue;
         }

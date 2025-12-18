@@ -1,0 +1,836 @@
+================================================================================
+ATLANAN MÜŞTERİ KAYITLARI RAPORU
+================================================================================
+
+Rapor Tarihi: 18.12.2025 12:38:41
+Toplam Atlanan Kayıt: 63
+
+================================================================================
+
+1. Satır 45
+   Ünvan: ADALET BAKANLIĞI İZMİR AÇIK CEZA İNFAZ KURUMU
+   Kod: 120.01.045
+   VKN: 0520559730
+   Telefon: (Eksik)
+   E-posta: hasan.cenk.soytekin@adalet.gov.tr
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+2. Satır 63
+   Ünvan: NS TEKNİK YAPI SAN VE TİC. LTD.ŞTİ
+   Kod: 120.01.064
+   VKN: 6321357893
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İstanbul
+   İlçe: Sancaktepe
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+3. Satır 68
+   Ünvan: 35 EYS 19 SATIŞI
+   Kod: 120.01.070
+   VKN: 8790627879
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+4. Satır 75
+   Ünvan: AKİF ERSEZGİN ANADOLU LİSESİ MÜDÜRLÜĞÜ OKUL AİLE BİRLİĞİ BAŞKANLIĞI
+   Kod: 120.01.078
+   VKN: 1650285708
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+5. Satır 105
+   Ünvan: MEHMET FARUK ÇETİN
+   Kod: 120.01.109
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+6. Satır 165
+   Ünvan: HENEKEN METALÜRJİ DÖKÜM A.Ş. (ANLAŞILAN GES)
+   Kod: 120.01.180
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+7. Satır 169
+   Ünvan: NB BARAN İNŞ. TAAH. DEK. MAD. PVC SAN. VE TİC. LTD.ŞTİ
+   Kod: 120.01.187
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+8. Satır 183
+   Ünvan: METAPET PLASTİK SANAYİ VE DIŞ TİC LTD. ŞTİ.
+   Kod: 120.01.204
+   VKN: 6191267033
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+9. Satır 194
+   Ünvan: ARBES - ÇİM MAKİNASI
+   Kod: 120.01.215
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+10. Satır 219
+   Ünvan: ERKAN İŞKAÇIRMAZ
+   Kod: 120.01.240
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+11. Satır 220
+   Ünvan: CANER ERBİLEK
+   Kod: 120.01.241
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+12. Satır 223
+   Ünvan: BATUHAN GÖKBAKAR
+   Kod: 120.01.245
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+13. Satır 230
+   Ünvan: ALİ ATICI
+   Kod: 120.01.253
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+14. Satır 283
+   Ünvan: MUSTAFA KÖSEOĞLU
+   Kod: 120.01.312
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: mustafakoseoglu970@gmail.com
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+15. Satır 284
+   Ünvan: ÖZGÜR ÇAKIR
+   Kod: 120.01.313
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+16. Satır 323
+   Ünvan: FONT ENERJİ ELEKTRİK SAN.VE TİC. LTD.ŞTİ.
+   Kod: 120.01.534
+   VKN: 3881388107
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: Ankara
+   İlçe: Yenimahalle
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+17. Satır 349
+   Ünvan: 19'UNCU KOMANDO TUGAYI K. YRD. LIĞI ASKERİ KANTİN BAŞKANLIĞI
+   Kod: 120.01.561
+   VKN: 1650289358
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+18. Satır 421
+   Ünvan: GÖZDEM AKSEKİLİ
+   Kod: 320.01.044
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+19. Satır 466
+   Ünvan: NECMİ İNCAZLI SALEPÇİOĞLU
+   Kod: 320.01.090
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+20. Satır 478
+   Ünvan: HALİL KOÇ BURÇAK ODUN EKMEĞİ UNLU MAMÜLLERİ
+   Kod: 320.01.102
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İstanbul
+   İlçe: Kartal
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+21. Satır 492
+   Ünvan: NEMRUT KÜÇÜK SANAYİ SİTESİ SİTE YÖNETİMİ (AİDAT)
+   Kod: 320.01.116
+   VKN: 6311610555
+   Telefon: (Eksik)
+   E-posta: info@nemrutsanayi.org
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+22. Satır 493
+   Ünvan: NEMRUT KÜÇÜK SANAYİ SİTESİ SİTE YÖNETİMİ (TEMİNAT)
+   Kod: 320.01.117
+   VKN: 6311610555
+   Telefon: (Eksik)
+   E-posta: info@nemrutsanayi.org
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+23. Satır 494
+   Ünvan: NEMRUT KÜÇÜK SANAYİ SİTESİ SİTE YÖNETİMİ (SU)
+   Kod: 320.01.118
+   VKN: 6311610555
+   Telefon: (Eksik)
+   E-posta: info@nemrutsanayi.org
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+24. Satır 503
+   Ünvan: MEMDUH ÖVER
+   Kod: 320.01.128
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+25. Satır 510
+   Ünvan: RBN TURİZM DANIŞMANLIK TİCARET LİMİTED ŞİRKET
+   Kod: 320.01.136
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Konak
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+26. Satır 511
+   Ünvan: MUSTAFA BURCU SARR KONFEKSİYON LTD ŞTİ
+   Kod: 320.01.137
+   VKN: 6240058096
+   Telefon: (Eksik)
+   E-posta: burcu.saloni@gmail.com
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+27. Satır 548
+   Ünvan: MAPA MOBİLYA VE AKSESUAR  PAZARLAMA ANONİM ŞİRKETİ
+   Kod: 320.01.176
+   VKN: 6120379680
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İstanbul
+   İlçe: Ümraniye
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+28. Satır 554
+   Ünvan: IŞIL LED AYDINLATMA SAN. TİC.LTD.ŞTİ.
+   Kod: 320.01.183
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+29. Satır 605
+   Ünvan: ANIL TUNCER
+   Kod: 320.01.235
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+30. Satır 608
+   Ünvan: DESING 291 İÇ MİMARLIK YAT TASARIMI DEKORASYON LTD ŞTİ
+   Kod: 320.01.238
+   VKN: 2930989620
+   Telefon: (Eksik)
+   E-posta: info@design291.com.tr
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+31. Satır 624
+   Ünvan: KARE METALURJİ LTD. ŞTİ.
+   Kod: 320.01.269
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+32. Satır 645
+   Ünvan: İZVİNÇ İŞ MAKİNALARI KİRALAMA HİZMETLERİ NAK İNŞ SAN VE TİC LTD ŞTİ
+   Kod: 320.01.320
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+33. Satır 647
+   Ünvan: AHMET ÇORAK ÖMÜR SAVAÇ MALİMÜŞAVİR
+   Kod: 320.01.335
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+34. Satır 654
+   Ünvan: AVUKAT EMRAH AVCI
+   Kod: 320.01.343
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+35. Satır 679
+   Ünvan: İZMİR BÜYÜKŞEHİR BELEDİYESİ  İZSU MÜDÜRLÜĞÜ
+   Kod: 320.01.370
+   VKN: 4840008262
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: KONAK
+   İlçe: İZMİR
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+36. Satır 683
+   Ünvan: KOSGEB
+   Kod: 320.01.374
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Konak
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+37. Satır 733
+   Ünvan: MELEK MERCAN
+   Kod: 320.01.428
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+38. Satır 739
+   Ünvan: SEÇKİN VURAL SİGORTA ARACILIK HİZMETLERİ LİMİTED ŞİRKETİ
+   Kod: 320.01.439
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+39. Satır 743
+   Ünvan: MERT ŞAPÇI
+   Kod: 320.01.443
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+40. Satır 749
+   Ünvan: İBRAHİM SOYSAL
+   Kod: 320.01.449
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: Balıkesir
+   İlçe: İvrindi
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+41. Satır 751
+   Ünvan: REMZİYE ŞİMŞEK
+   Kod: 320.01.451
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+42. Satır 761
+   Ünvan: ALİ İRİTEN EMRE ŞENGÖZ
+   Kod: 320.01.461
+   VKN: 0521783124
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Menemen
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+43. Satır 776
+   Ünvan: ALİMAR MAKİNA SAN. VE TİC. A.Ş
+   Kod: 320.01.476
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+44. Satır 791
+   Ünvan: NER MAKİNA
+   Kod: 320.01.491
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+45. Satır 801
+   Ünvan: ESRA İRKİL - DAĞISTAN TOSUN ORTAKLIĞI
+   Kod: 320.01.501
+   VKN: 4800495300
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+46. Satır 838
+   Ünvan: Hacıoğulları Ekmek San. ve Tic. Ltd. Şti.
+   Kod: 320.01.549
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+47. Satır 856
+   Ünvan: MESUT AĞIRBAŞLI
+   Kod: 320.01.567
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+48. Satır 891
+   Ünvan: ZAFER NAZLI
+   Kod: 320.01.602
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+49. Satır 897
+   Ünvan: SERKAN GÜLER
+   Kod: 320.01.608
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Çiğli
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+50. Satır 929
+   Ünvan: CUMHUR KIYAFETÇİ
+   Kod: 320.01.640
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+51. Satır 941
+   Ünvan: MEHMET ESAD ÇETİN
+   Kod: 320.01.652
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: Balıkesir
+   İlçe: İvrindi
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+52. Satır 965
+   Ünvan: EGEMEN HEDİYELİK EŞYA OYUNCAK ZÜCCACİYE SAN.TİC. A.Ş.
+   Kod: 320.01.702
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+53. Satır 979
+   Ünvan: EREN MUTLU ŞAHİN
+   Kod: 120.001
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+54. Satır 980
+   Ünvan: Z RAPORU SATIŞLARI
+   Kod: 120.01.001
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+55. Satır 981
+   Ünvan: HASAN HÜSEYİN TURAN
+   Kod: 120.01.123
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+56. Satır 987
+   Ünvan: ŞABAN UYGUNER MERMERCİ
+   Kod: 120.01.242
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+57. Satır 988
+   Ünvan: PERA KURUMSAL HİZM. MİM. MÜH. İNŞ.SAN. VE TİC. LTD. ŞTİ
+   Kod: 120.01.264
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Aliağa
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+58. Satır 991
+   Ünvan: İNŞAAT BÖLÜMÜ PERAKENDE SATIŞ
+   Kod: 320.01.089
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+59. Satır 992
+   Ünvan: HÜSEYİN KEKLİK
+   Kod: 320.01.271
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+60. Satır 994
+   Ünvan: İNAN DAYANIKLI TÜK. MALLARI LTD.ŞTİ.
+   Kod: 320.01.366
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: İzmir
+   İlçe: Bergama
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+61. Satır 995
+   Ünvan: DÖNER BÖLÜMÜ PERAKENDE SATIŞ
+   Kod: P2024155-D
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+62. Satır 996
+   Ünvan: ALOSBİ ELEKTRİK BÖLÜMÜ SATIŞ
+   Kod: P2032085
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+63. Satır 997
+   Ünvan: ELEKTRİK BÖLÜMÜ PERAKENDE SATIŞ
+   Kod: P203680
+   VKN: (Yok)
+   Telefon: (Eksik)
+   E-posta: (Yok)
+   Şehir: (Yok)
+   İlçe: (Yok)
+   Adres: (Eksik)
+   Sebep: Telefon ve Adres eksik (en az biri gerekli)
+
+--------------------------------------------------------------------------------
+
+
+================================================================================
+ÖNEMLİ NOTLAR:
+================================================================================
+1. Bu kayıtlar telefon ve/veya adres bilgisi eksik olduğu için atlanmıştır.
+2. Bu kayıtları sisteme eklemek için eksik bilgileri tamamlayın.
+3. Telefon veya Adres alanlarından en az biri dolu olmalıdır.
+================================================================================
