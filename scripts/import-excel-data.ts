@@ -344,17 +344,45 @@ async function importEmployees() {
         // Kan grubu normalize et
         let normalizedBloodType = null;
         if (bloodType) {
-          const blood = bloodType.toString().trim().toUpperCase().replace(/\s+/g, "");
-          if (blood.match(/^[AB0]\+$/)) normalizedBloodType = blood;
-          else if (blood.match(/^[AB0]-$/)) normalizedBloodType = blood;
-          else if (blood.match(/^0RH\+$/)) normalizedBloodType = "0+";
-          else if (blood.match(/^0RH-$/)) normalizedBloodType = "0-";
-          else if (blood.match(/^A\+$/)) normalizedBloodType = "A+";
-          else if (blood.match(/^A-$/)) normalizedBloodType = "A-";
-          else if (blood.match(/^B\+$/)) normalizedBloodType = "B+";
-          else if (blood.match(/^B-$/)) normalizedBloodType = "B-";
-          else if (blood.match(/^AB\+$/)) normalizedBloodType = "AB+";
-          else if (blood.match(/^AB-$/)) normalizedBloodType = "AB-";
+          const blood = bloodType.toString().trim().toUpperCase();
+          
+          // Önce boşlukları temizle
+          const cleaned = blood.replace(/\s+/g, "").replace(/RH/g, "");
+          
+          // Farklı formatları işle
+          // "0 RH +" -> "0+"
+          // "B RH -" -> "B-"
+          // "A+" -> "A+"
+          // "AB-" -> "AB-"
+          
+          if (cleaned.match(/^0\+$/)) normalizedBloodType = "0+";
+          else if (cleaned.match(/^0-$/)) normalizedBloodType = "0-";
+          else if (cleaned.match(/^A\+$/)) normalizedBloodType = "A+";
+          else if (cleaned.match(/^A-$/)) normalizedBloodType = "A-";
+          else if (cleaned.match(/^B\+$/)) normalizedBloodType = "B+";
+          else if (cleaned.match(/^B-$/)) normalizedBloodType = "B-";
+          else if (cleaned.match(/^AB\+$/)) normalizedBloodType = "AB+";
+          else if (cleaned.match(/^AB-$/)) normalizedBloodType = "AB-";
+          // Alternatif formatlar
+          else if (blood.match(/^0\s*RH\s*\+$/i) || blood.match(/^0\s*\+$/i)) normalizedBloodType = "0+";
+          else if (blood.match(/^0\s*RH\s*-$/i) || blood.match(/^0\s*-$/i)) normalizedBloodType = "0-";
+          else if (blood.match(/^A\s*RH\s*\+$/i) || blood.match(/^A\s*\+$/i)) normalizedBloodType = "A+";
+          else if (blood.match(/^A\s*RH\s*-$/i) || blood.match(/^A\s*-$/i)) normalizedBloodType = "A-";
+          else if (blood.match(/^B\s*RH\s*\+$/i) || blood.match(/^B\s*\+$/i)) normalizedBloodType = "B+";
+          else if (blood.match(/^B\s*RH\s*-$/i) || blood.match(/^B\s*-$/i)) normalizedBloodType = "B-";
+          else if (blood.match(/^AB\s*RH\s*\+$/i) || blood.match(/^AB\s*\+$/i)) normalizedBloodType = "AB+";
+          else if (blood.match(/^AB\s*RH\s*-$/i) || blood.match(/^AB\s*-$/i)) normalizedBloodType = "AB-";
+          // Eğer hiçbiri eşleşmezse, temizlenmiş değeri kullan
+          else if (cleaned.length <= 4) {
+            // Son karakter + veya - ise
+            const lastChar = cleaned.slice(-1);
+            if (lastChar === "+" || lastChar === "-") {
+              const bloodGroup = cleaned.slice(0, -1);
+              if (["0", "A", "B", "AB"].includes(bloodGroup)) {
+                normalizedBloodType = bloodGroup + lastChar;
+              }
+            }
+          }
         }
         
         // Durum normalize et
