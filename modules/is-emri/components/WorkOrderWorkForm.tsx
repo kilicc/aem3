@@ -317,15 +317,32 @@ export default function WorkOrderWorkForm({
         </div>
       )}
 
-      {/* Araç Seçimi ve Kilometre Bilgileri (Sadece müşteri işleri için) */}
+      {/* Araç Seçimi ve Kilometre Bilgileri (Sadece müşteri işleri için) - EN ÜSTE TAŞINDI */}
       {!isOfficeWork && (
-      <Card>
+      <Card className={!selectedVehicleId && workOrder.status === "pending" ? "border-orange-500 border-2 bg-orange-50 dark:bg-orange-900/20" : ""}>
         <CardHeader>
-          <CardTitle>Araç Bilgileri</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            {!selectedVehicleId && workOrder.status === "pending" && (
+              <span className="text-orange-600 dark:text-orange-400">⚠️</span>
+            )}
+            İşe Çıkılacak Araç Seçimi *
+            {!selectedVehicleId && workOrder.status === "pending" && (
+              <span className="text-sm font-normal text-orange-600 dark:text-orange-400">
+                (Formu doldurmaya başlamadan önce araç seçmelisiniz)
+              </span>
+            )}
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {!selectedVehicleId && workOrder.status === "pending" && (
+            <div className="rounded-md bg-orange-100 dark:bg-orange-900/30 p-4 mb-4">
+              <div className="text-sm text-orange-800 dark:text-orange-200 font-semibold">
+                ⚠️ ÖNEMLİ: Lütfen işe çıkacağınız aracı seçin. Araç seçmeden formu doldurmaya başlayamazsınız.
+              </div>
+            </div>
+          )}
           <div>
-            <Label htmlFor="vehicle">İşe Çıkılacak Araç *</Label>
+            <Label htmlFor="vehicle">Araç Seçiniz *</Label>
             <Select
               id="vehicle"
               value={selectedVehicleId}
@@ -443,19 +460,32 @@ export default function WorkOrderWorkForm({
 
       {/* Teknik Servis Formu (Sadece müşteri işleri için) */}
       {!isOfficeWork && workOrder.service?.service_form_template && (
-        <TechnicalServiceForm
-          template={workOrder.service.service_form_template}
-          customer={workOrder.customer}
-          device={workOrder.customer_device}
-          formData={technicalFormData}
-          onChange={setTechnicalFormData}
-          workOrderNumber={workOrder.order_number}
-          assignedUsers={assignedUsers}
-        />
+        <div className={!selectedVehicleId && workOrder.status === "pending" ? "opacity-50 pointer-events-none" : ""}>
+          <div className={!selectedVehicleId && workOrder.status === "pending" ? "relative" : ""}>
+            {!selectedVehicleId && workOrder.status === "pending" && (
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 dark:bg-gray-800/80 rounded-lg">
+                <div className="text-center p-4">
+                  <p className="text-sm font-semibold text-orange-600 dark:text-orange-400">
+                    ⚠️ Önce araç seçmelisiniz
+                  </p>
+                </div>
+              </div>
+            )}
+            <TechnicalServiceForm
+              template={workOrder.service.service_form_template}
+              customer={workOrder.customer}
+              device={workOrder.customer_device}
+              formData={technicalFormData}
+              onChange={setTechnicalFormData}
+              workOrderNumber={workOrder.order_number}
+              assignedUsers={assignedUsers}
+            />
+          </div>
+        </div>
       )}
 
       {/* Yapılan İşlemler */}
-      <Card>
+      <Card className={!selectedVehicleId && workOrder.status === "pending" ? "opacity-50" : ""}>
         <CardHeader>
           <CardTitle>Yapılan İşlemler</CardTitle>
         </CardHeader>
@@ -466,7 +496,13 @@ export default function WorkOrderWorkForm({
             value={workDescription}
             onChange={(e) => setWorkDescription(e.target.value)}
             placeholder="Yapılan işlemleri detaylı bir şekilde açıklayın..."
+            disabled={!selectedVehicleId && workOrder.status === "pending" && !isOfficeWork}
           />
+          {!selectedVehicleId && workOrder.status === "pending" && !isOfficeWork && (
+            <p className="text-xs text-orange-600 dark:text-orange-400 mt-2">
+              ⚠️ Araç seçmeden bu alanı dolduramazsınız
+            </p>
+          )}
         </CardContent>
       </Card>
 
@@ -536,7 +572,16 @@ export default function WorkOrderWorkForm({
 
       {/* İmzalar (Sadece müşteri işleri için) */}
       {!isOfficeWork && (
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className={`grid md:grid-cols-2 gap-6 ${!selectedVehicleId && workOrder.status === "pending" ? "opacity-50 pointer-events-none" : ""}`}>
+        {!selectedVehicleId && workOrder.status === "pending" && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center">
+            <div className="text-center p-4 bg-white/80 dark:bg-gray-800/80 rounded-lg">
+              <p className="text-sm font-semibold text-orange-600 dark:text-orange-400">
+                ⚠️ Önce araç seçmelisiniz
+              </p>
+            </div>
+          </div>
+        )}
         {/* Çalışan İmzası */}
         <Card>
           <CardHeader>
@@ -584,7 +629,11 @@ export default function WorkOrderWorkForm({
                   onCancel={() => setShowEmployeeSignature(false)}
                 />
               ) : (
-                <Button onClick={() => setShowEmployeeSignature(true)} className="w-full">
+                <Button 
+                  onClick={() => setShowEmployeeSignature(true)} 
+                  className="w-full"
+                  disabled={workOrder.status === "completed" || workOrder.status === "cancelled" || (!selectedVehicleId && workOrder.status === "pending")}
+                >
                   İmzala
                 </Button>
               )}
@@ -609,6 +658,7 @@ export default function WorkOrderWorkForm({
                   onChange={(e) => setCustomerName(e.target.value)}
                   placeholder="Müşteri adı ve soyadı"
                   className="mt-1"
+                  disabled={!selectedVehicleId && workOrder.status === "pending"}
                 />
               </div>
 
@@ -639,7 +689,11 @@ export default function WorkOrderWorkForm({
                   onCancel={() => setShowCustomerSignature(false)}
                 />
               ) : (
-                <Button onClick={() => setShowCustomerSignature(true)} className="w-full">
+                <Button 
+                  onClick={() => setShowCustomerSignature(true)} 
+                  className="w-full"
+                  disabled={workOrder.status === "completed" || workOrder.status === "cancelled" || (!selectedVehicleId && workOrder.status === "pending")}
+                >
                   İmzala
                 </Button>
               )}
