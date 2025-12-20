@@ -23,6 +23,9 @@ interface Tool {
   serial_number: string | null;
   purchase_date: string | null;
   purchase_price: number | null;
+  last_maintenance_date: string | null;
+  next_maintenance_date: string | null;
+  maintenance_interval_months: number | null;
   created_at: string;
 }
 
@@ -94,55 +97,81 @@ export default function ToolsTable({
             <TableRow>
               <TableHead>Araç-Gereç Adı</TableHead>
               <TableHead>Seri No</TableHead>
+              <TableHead>Son Bakım</TableHead>
+              <TableHead>Sonraki Bakım</TableHead>
               <TableHead>Alış Tarihi</TableHead>
-              <TableHead>Alış Fiyatı</TableHead>
               <TableHead>İşlemler</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {tools.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center text-gray-500 dark:text-gray-400">
+                <TableCell colSpan={6} className="text-center text-gray-500 dark:text-gray-400">
                   Araç-gereç bulunamadı
                 </TableCell>
               </TableRow>
             ) : (
-              tools.map((tool) => (
-                <TableRow key={tool.id}>
-                  <TableCell className="font-medium">{tool.name}</TableCell>
-                  <TableCell>{tool.serial_number || "-"}</TableCell>
-                  <TableCell>
-                    {tool.purchase_date
-                      ? new Date(tool.purchase_date).toLocaleDateString("tr-TR")
-                      : "-"}
-                  </TableCell>
-                  <TableCell>
-                    {tool.purchase_price
-                      ? new Intl.NumberFormat("tr-TR", {
-                          style: "currency",
-                          currency: "TRY",
-                        }).format(tool.purchase_price)
-                      : "-"}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Link href={`/depo/tools/${tool.id}/edit`}>
-                        <Button variant="ghost" size="icon">
-                          <Edit className="h-4 w-4" />
+              tools.map((tool) => {
+                const nextMaintenanceDate = tool.next_maintenance_date
+                  ? new Date(tool.next_maintenance_date)
+                  : null;
+                const isMaintenanceDue = nextMaintenanceDate && nextMaintenanceDate <= new Date();
+                const isMaintenanceDueSoon =
+                  nextMaintenanceDate &&
+                  nextMaintenanceDate > new Date() &&
+                  nextMaintenanceDate <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+
+                return (
+                  <TableRow key={tool.id}>
+                    <TableCell className="font-medium">{tool.name}</TableCell>
+                    <TableCell>{tool.serial_number || "-"}</TableCell>
+                    <TableCell>
+                      {tool.last_maintenance_date
+                        ? new Date(tool.last_maintenance_date).toLocaleDateString("tr-TR")
+                        : "-"}
+                    </TableCell>
+                    <TableCell>
+                      {tool.next_maintenance_date ? (
+                        <span
+                          className={
+                            isMaintenanceDue
+                              ? "text-red-600 font-semibold"
+                              : isMaintenanceDueSoon
+                              ? "text-orange-600 font-semibold"
+                              : ""
+                          }
+                        >
+                          {new Date(tool.next_maintenance_date).toLocaleDateString("tr-TR")}
+                        </span>
+                      ) : (
+                        "-"
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {tool.purchase_date
+                        ? new Date(tool.purchase_date).toLocaleDateString("tr-TR")
+                        : "-"}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Link href={`/depo/tools/${tool.id}/edit`}>
+                          <Button variant="ghost" size="icon">
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                        </Link>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleDelete(tool.id)}
+                          disabled={deleting === tool.id}
+                        >
+                          <Trash2 className="h-4 w-4 text-red-600" />
                         </Button>
-                      </Link>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleDelete(tool.id)}
-                        disabled={deleting === tool.id}
-                      >
-                        <Trash2 className="h-4 w-4 text-red-600" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
             )}
           </TableBody>
         </Table>

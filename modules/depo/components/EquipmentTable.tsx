@@ -29,6 +29,9 @@ interface Equipment {
   quantity: number;
   min_stock_level: number;
   unit_price: number | null;
+  last_maintenance_date: string | null;
+  next_maintenance_date: string | null;
+  maintenance_interval_months: number | null;
   warehouse?: {
     id: string;
     name: string;
@@ -136,8 +139,8 @@ export default function EquipmentTable({
                 <TableHead>Ekipman Adı</TableHead>
                 <TableHead>Kod</TableHead>
                 <TableHead>Kategori</TableHead>
-                <TableHead>Beden/Boyut</TableHead>
-                <TableHead>Renk</TableHead>
+                <TableHead>Son Bakım</TableHead>
+                <TableHead>Sonraki Bakım</TableHead>
                 <TableHead>Stok</TableHead>
                 <TableHead>Depo</TableHead>
                 <TableHead>İşlemler</TableHead>
@@ -153,6 +156,15 @@ export default function EquipmentTable({
               ) : (
                 equipment.map((item) => {
                   const isLowStock = item.quantity <= item.min_stock_level;
+                  const nextMaintenanceDate = item.next_maintenance_date
+                    ? new Date(item.next_maintenance_date)
+                    : null;
+                  const isMaintenanceDue = nextMaintenanceDate && nextMaintenanceDate <= new Date();
+                  const isMaintenanceDueSoon =
+                    nextMaintenanceDate &&
+                    nextMaintenanceDate > new Date() &&
+                    nextMaintenanceDate <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+
                   return (
                     <TableRow key={item.id}>
                       <TableCell className="font-medium">{item.name}</TableCell>
@@ -162,8 +174,28 @@ export default function EquipmentTable({
                           {categoryLabels[item.category] || item.category}
                         </span>
                       </TableCell>
-                      <TableCell>{item.size || "-"}</TableCell>
-                      <TableCell>{item.color || "-"}</TableCell>
+                      <TableCell>
+                        {item.last_maintenance_date
+                          ? new Date(item.last_maintenance_date).toLocaleDateString("tr-TR")
+                          : "-"}
+                      </TableCell>
+                      <TableCell>
+                        {item.next_maintenance_date ? (
+                          <span
+                            className={
+                              isMaintenanceDue
+                                ? "text-red-600 font-semibold"
+                                : isMaintenanceDueSoon
+                                ? "text-orange-600 font-semibold"
+                                : ""
+                            }
+                          >
+                            {new Date(item.next_maintenance_date).toLocaleDateString("tr-TR")}
+                          </span>
+                        ) : (
+                          "-"
+                        )}
+                      </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <span className={isLowStock ? "text-red-600 dark:text-red-400 font-semibold" : ""}>

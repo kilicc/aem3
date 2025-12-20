@@ -35,6 +35,11 @@ export async function createFixedAsset(formData: FormData) {
   const notes = formData.get("notes") as string | null;
   const assignedTo = formData.get("assigned_to") as string | null;
   const assignedAt = formData.get("assigned_at") as string | null;
+  const lastMaintenanceDate = formData.get("last_maintenance_date") as string | null;
+  const nextMaintenanceDate = formData.get("next_maintenance_date") as string | null;
+  const maintenanceIntervalMonths = formData.get("maintenance_interval_months")
+    ? parseInt(formData.get("maintenance_interval_months") as string)
+    : null;
 
   const { data, error } = await supabase
     .from("fixed_assets")
@@ -53,6 +58,9 @@ export async function createFixedAsset(formData: FormData) {
       notes: notes || null,
       assigned_to: assignedTo || null,
       assigned_at: assignedAt || null,
+      last_maintenance_date: lastMaintenanceDate || null,
+      next_maintenance_date: nextMaintenanceDate || null,
+      maintenance_interval_months: maintenanceIntervalMonths,
       created_by: user.id,
     })
     .select()
@@ -98,6 +106,11 @@ export async function updateFixedAsset(id: string, formData: FormData) {
   const notes = formData.get("notes") as string | null;
   const assignedTo = formData.get("assigned_to") as string | null;
   const assignedAt = formData.get("assigned_at") as string | null;
+  const lastMaintenanceDate = formData.get("last_maintenance_date") as string | null;
+  const nextMaintenanceDate = formData.get("next_maintenance_date") as string | null;
+  const maintenanceIntervalMonths = formData.get("maintenance_interval_months")
+    ? parseInt(formData.get("maintenance_interval_months") as string)
+    : null;
 
   const { data, error } = await supabase
     .from("fixed_assets")
@@ -116,6 +129,9 @@ export async function updateFixedAsset(id: string, formData: FormData) {
       notes: notes || null,
       assigned_to: assignedTo || null,
       assigned_at: assignedAt || null,
+      last_maintenance_date: lastMaintenanceDate || null,
+      next_maintenance_date: nextMaintenanceDate || null,
+      maintenance_interval_months: maintenanceIntervalMonths,
       updated_at: new Date().toISOString(),
     })
     .eq("id", id)

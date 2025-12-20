@@ -37,6 +37,9 @@ interface FixedAssetFormProps {
     notes: string | null;
     assigned_to: string | null;
     assigned_at: string | null;
+    last_maintenance_date: string | null;
+    next_maintenance_date: string | null;
+    maintenance_interval_months: number | null;
   };
   warehouses: Warehouse[];
   users: User[];
@@ -242,6 +245,48 @@ export default function FixedAssetForm({
               className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               defaultValue={fixedAsset?.notes || ""}
             />
+          </div>
+
+          <div className="border-t pt-4">
+            <h3 className="text-lg font-semibold mb-4">Bakım Bilgileri</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="last_maintenance_date">Son Bakım Tarihi</Label>
+                <Input
+                  id="last_maintenance_date"
+                  name="last_maintenance_date"
+                  type="date"
+                  defaultValue={
+                    fixedAsset?.last_maintenance_date
+                      ? new Date(fixedAsset.last_maintenance_date).toISOString().split("T")[0]
+                      : ""
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="next_maintenance_date">Sonraki Bakım Tarihi</Label>
+                <Input
+                  id="next_maintenance_date"
+                  name="next_maintenance_date"
+                  type="date"
+                  defaultValue={
+                    fixedAsset?.next_maintenance_date
+                      ? new Date(fixedAsset.next_maintenance_date).toISOString().split("T")[0]
+                      : ""
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="maintenance_interval_months">Bakım Periyodu (Ay)</Label>
+                <Input
+                  id="maintenance_interval_months"
+                  name="maintenance_interval_months"
+                  type="number"
+                  min="1"
+                  defaultValue={fixedAsset?.maintenance_interval_months?.toString() || "12"}
+                />
+              </div>
+            </div>
           </div>
 
           {error && (

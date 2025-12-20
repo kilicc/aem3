@@ -34,6 +34,11 @@ export async function createEquipment(formData: FormData) {
   const unitPrice = formData.get("unit_price") ? parseFloat(formData.get("unit_price") as string) : null;
   const purchaseDate = formData.get("purchase_date") as string | null;
   const notes = formData.get("notes") as string | null;
+  const lastMaintenanceDate = formData.get("last_maintenance_date") as string | null;
+  const nextMaintenanceDate = formData.get("next_maintenance_date") as string | null;
+  const maintenanceIntervalMonths = formData.get("maintenance_interval_months")
+    ? parseInt(formData.get("maintenance_interval_months") as string)
+    : null;
 
   if (!warehouseId || warehouseId.trim() === "") {
     return { error: "Depo seçilmedi" };
@@ -55,6 +60,9 @@ export async function createEquipment(formData: FormData) {
       unit_price: unitPrice || null,
       purchase_date: purchaseDate || null,
       notes: notes || null,
+      last_maintenance_date: lastMaintenanceDate || null,
+      next_maintenance_date: nextMaintenanceDate || null,
+      maintenance_interval_months: maintenanceIntervalMonths,
       created_by: user.id,
     })
     .select()
@@ -99,6 +107,11 @@ export async function updateEquipment(id: string, formData: FormData) {
   const unitPrice = formData.get("unit_price") ? parseFloat(formData.get("unit_price") as string) : null;
   const purchaseDate = formData.get("purchase_date") as string | null;
   const notes = formData.get("notes") as string | null;
+  const lastMaintenanceDate = formData.get("last_maintenance_date") as string | null;
+  const nextMaintenanceDate = formData.get("next_maintenance_date") as string | null;
+  const maintenanceIntervalMonths = formData.get("maintenance_interval_months")
+    ? parseInt(formData.get("maintenance_interval_months") as string)
+    : null;
 
   if (!warehouseId || warehouseId.trim() === "") {
     return { error: "Depo seçilmedi" };
@@ -120,6 +133,9 @@ export async function updateEquipment(id: string, formData: FormData) {
       unit_price: unitPrice || null,
       purchase_date: purchaseDate || null,
       notes: notes || null,
+      last_maintenance_date: lastMaintenanceDate || null,
+      next_maintenance_date: nextMaintenanceDate || null,
+      maintenance_interval_months: maintenanceIntervalMonths,
       updated_at: new Date().toISOString(),
     })
     .eq("id", id)

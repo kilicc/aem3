@@ -28,6 +28,11 @@ export async function createTool(formData: FormData) {
   const purchasePrice = formData.get("purchase_price")
     ? parseFloat(formData.get("purchase_price") as string)
     : null;
+  const lastMaintenanceDate = formData.get("last_maintenance_date") as string | null;
+  const nextMaintenanceDate = formData.get("next_maintenance_date") as string | null;
+  const maintenanceIntervalMonths = formData.get("maintenance_interval_months")
+    ? parseInt(formData.get("maintenance_interval_months") as string)
+    : null;
 
   const { data, error } = await supabase
     .from("tools")
@@ -37,6 +42,9 @@ export async function createTool(formData: FormData) {
       serial_number: serialNumber,
       purchase_date: purchaseDate || null,
       purchase_price: purchasePrice,
+      last_maintenance_date: lastMaintenanceDate || null,
+      next_maintenance_date: nextMaintenanceDate || null,
+      maintenance_interval_months: maintenanceIntervalMonths,
     })
     .select()
     .single();
@@ -74,6 +82,11 @@ export async function updateTool(id: string, formData: FormData) {
   const purchasePrice = formData.get("purchase_price")
     ? parseFloat(formData.get("purchase_price") as string)
     : null;
+  const lastMaintenanceDate = formData.get("last_maintenance_date") as string | null;
+  const nextMaintenanceDate = formData.get("next_maintenance_date") as string | null;
+  const maintenanceIntervalMonths = formData.get("maintenance_interval_months")
+    ? parseInt(formData.get("maintenance_interval_months") as string)
+    : null;
 
   const { data, error } = await supabase
     .from("tools")
@@ -83,6 +96,9 @@ export async function updateTool(id: string, formData: FormData) {
       serial_number: serialNumber,
       purchase_date: purchaseDate || null,
       purchase_price: purchasePrice,
+      last_maintenance_date: lastMaintenanceDate || null,
+      next_maintenance_date: nextMaintenanceDate || null,
+      maintenance_interval_months: maintenanceIntervalMonths,
     })
     .eq("id", id)
     .select()
