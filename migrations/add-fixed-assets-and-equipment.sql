@@ -245,6 +245,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS trigger_update_periodic_distribution_renewal_date ON periodic_product_distributions;
 CREATE TRIGGER trigger_update_periodic_distribution_renewal_date
   BEFORE INSERT OR UPDATE ON periodic_product_distributions
   FOR EACH ROW
