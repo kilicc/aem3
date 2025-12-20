@@ -31,6 +31,8 @@ export default async function WorkOrderWorkPage({
       customer:customers!work_orders_customer_id_fkey(id, name, phone, email, address, latitude, longitude, tax_id, tax_office),
       customer_device:customer_devices!work_orders_customer_device_id_fkey(id, device_type, device_name, serial_number),
       service:services!work_orders_service_id_fkey(name, service_form_template),
+      work_type,
+      office_work_description,
       vehicle:vehicles!work_orders_vehicle_id_fkey(id, plate_number, brand, model, mileage)
     `
     )

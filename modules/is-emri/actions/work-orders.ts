@@ -114,9 +114,9 @@ export async function createWorkOrder(formData: FormData) {
     .from("work_orders")
     .insert({
       order_number: orderNumber,
-      customer_id: workType === "customer" ? customerId : null,
+      customer_id: workType === "customer" ? customerId : (customerId || null),
       customer_device_id: workType === "customer" ? (customerDeviceId || null) : null,
-      service_id: serviceId,
+      service_id: workType === "customer" ? serviceId : null,
       assigned_to: assignedTo.length > 0 ? assignedTo : [],
       priority: priority || "normal",
       status: "pending",
@@ -158,10 +158,20 @@ export async function updateWorkOrderStatus(
     updated_at: new Date().toISOString(),
   };
 
-  // İşlemde durumuna geçildiğinde konum bilgisi ve araç bilgileri al
+  // İşlemde durumuna geçildiğinde konum bilgisi ve araç bilgileri al (sadece müşteri işleri için)
   if (status === "in_progress") {
+    // Mevcut iş emri bilgilerini al
+    const { data: existingOrder } = await supabase
+      .from("work_orders")
+      .select("work_type")
+      .eq("id", id)
+      .single();
+
+    const isOfficeWork = existingOrder?.work_type === "office";
     updates.started_at = new Date().toISOString();
-    if (formData) {
+    
+    if (formData && !isOfficeWork) {
+      // Sadece müşteri işleri için konum ve araç bilgileri
       const latitude = formData.get("latitude") as string | null;
       const longitude = formData.get("longitude") as string | null;
       const locationAddress = formData.get("location_address") as string | null;
@@ -341,21 +351,21 @@ export async function updateWorkOrder(id: string, formData: FormData) {
     if (!customerId || customerId.trim() === "") {
       return { error: "Müşteri seçilmedi" };
     }
+    if (!serviceId || serviceId.trim() === "") {
+      return { error: "Hizmet seçilmedi" };
+    }
   } else if (workType === "office") {
-    if (!officeWorkDescription || officeWorkDescription.trim() === "") {
+    if (officeWorkDescription !== null && (!officeWorkDescription || officeWorkDescription.trim() === "")) {
       return { error: "Yapılacak iş açıklaması gereklidir" };
     }
-  }
-  if (!serviceId || serviceId.trim() === "") {
-    return { error: "Hizmet seçilmedi" };
   }
 
   const { data, error } = await supabase
     .from("work_orders")
     .update({
-      customer_id: workType === "customer" ? customerId : null,
+      customer_id: workType === "customer" ? customerId : (customerId || null),
       customer_device_id: workType === "customer" ? (customerDeviceId || null) : null,
-      service_id: serviceId,
+      service_id: workType === "customer" ? serviceId : null,
       assigned_to: assignedTo.length > 0 ? assignedTo : [],
       priority,
       status,

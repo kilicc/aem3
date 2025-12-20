@@ -85,19 +85,28 @@ export default function WorkOrderWorkForm({
     }
   }, [selectedVehicleId, vehicles, vehicleStartKm]);
 
+  const isOfficeWork = workOrder.work_type === "office";
+
   const handleStartWork = async () => {
-    // Araç seçimi kontrolü
-    if (!selectedVehicleId) {
-      setError("Lütfen işe çıkacağınız aracı seçin.");
-      return;
+    // Ofis işleri için araç kontrolü yok
+    if (!isOfficeWork) {
+      // Araç seçimi kontrolü (sadece müşteri işleri için)
+      if (!selectedVehicleId) {
+        setError("Lütfen işe çıkacağınız aracı seçin.");
+        return;
+      }
+
+      if (!vehicleStartKm || vehicleStartKm < 0) {
+        setError("Lütfen araç başlangıç kilometresini girin.");
+        return;
+      }
     }
 
-    if (!vehicleStartKm || vehicleStartKm < 0) {
-      setError("Lütfen araç başlangıç kilometresini girin.");
-      return;
-    }
-
-    if (!confirm("İşe başlamak istediğinize emin misiniz? Başlangıç saati ve araç bilgileri kaydedilecektir.")) {
+    const confirmMessage = isOfficeWork 
+      ? "İşe başlamak istediğinize emin misiniz? Başlangıç saati kaydedilecektir."
+      : "İşe başlamak istediğinize emin misiniz? Başlangıç saati ve araç bilgileri kaydedilecektir.";
+    
+    if (!confirm(confirmMessage)) {
       return;
     }
 
@@ -131,10 +140,12 @@ export default function WorkOrderWorkForm({
       return;
     }
 
-    // Araç bilgilerini ekle
-    formData.append("vehicle_id", selectedVehicleId);
-    formData.append("vehicle_start_km", vehicleStartKm.toString());
-    formData.append("vehicle_assigned_by", currentUserId);
+    // Araç bilgilerini ekle (sadece müşteri işleri için)
+    if (!isOfficeWork && vehicleStartKm !== null) {
+      formData.append("vehicle_id", selectedVehicleId);
+      formData.append("vehicle_start_km", vehicleStartKm.toString());
+      formData.append("vehicle_assigned_by", currentUserId);
+    }
 
     // Önce form verilerini kaydet (başlangıç saati ile)
     const formDataForSave = new FormData();
@@ -264,7 +275,9 @@ export default function WorkOrderWorkForm({
             İş Emri Çalışma Formu
           </h1>
           <p className="mt-1 text-gray-600 dark:text-gray-400">
-            {workOrder.order_number} - {workOrder.customer?.name || "-"}
+            {workOrder.order_number} - {isOfficeWork 
+              ? "📋 Ofis / İdari İşleri" 
+              : (workOrder.customer?.name || "-")}
           </p>
         </div>
         <Link href={`/is-emri/${workOrder.id}`}>
@@ -278,7 +291,8 @@ export default function WorkOrderWorkForm({
         </div>
       )}
 
-      {/* Araç Seçimi ve Kilometre Bilgileri */}
+      {/* Araç Seçimi ve Kilometre Bilgileri (Sadece müşteri işleri için) */}
+      {!isOfficeWork && (
       <Card>
         <CardHeader>
           <CardTitle>Araç Bilgileri</CardTitle>
@@ -363,24 +377,46 @@ export default function WorkOrderWorkForm({
           )}
         </CardContent>
       </Card>
+      )}
 
       {/* İşe Başla Butonu (Pending durumunda) */}
       {workOrder.status === "pending" && (
         <Card>
           <CardContent className="p-6">
-            <Button onClick={handleStartWork} disabled={loading || !selectedVehicleId || !vehicleStartKm} className="w-full" size="lg">
+            <Button 
+              onClick={handleStartWork} 
+              disabled={loading || (!isOfficeWork && (!selectedVehicleId || !vehicleStartKm))} 
+              className="w-full" 
+              size="lg"
+            >
               <PlayCircle className="mr-2 h-5 w-5" />
               {loading ? "Başlatılıyor..." : "İşe Başla"}
             </Button>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
-              İşe başladığınızda konumunuz otomatik olarak kaydedilecek, başlangıç saati belirlenecek ve araç bilgileri kaydedilecektir.
+              {isOfficeWork 
+                ? "İşe başladığınızda başlangıç saati kaydedilecektir."
+                : "İşe başladığınızda konumunuz otomatik olarak kaydedilecek, başlangıç saati belirlenecek ve araç bilgileri kaydedilecektir."}
             </p>
           </CardContent>
         </Card>
       )}
 
-      {/* Teknik Servis Formu */}
-      {workOrder.service?.service_form_template && (
+      {/* Ofis İşleri için Yapılacak İş Bilgisi */}
+      {isOfficeWork && workOrder.office_work_description && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Yapılacak İş</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+              {workOrder.office_work_description}
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Teknik Servis Formu (Sadece müşteri işleri için) */}
+      {!isOfficeWork && workOrder.service?.service_form_template && (
         <TechnicalServiceForm
           template={workOrder.service.service_form_template}
           customer={workOrder.customer}

@@ -175,18 +175,36 @@ export default function WorkOrderForm({
                 </div>
               </>
             ) : (
-              <div className="md:col-span-2">
-                <Label htmlFor="office_work_description">Yapılacak İş *</Label>
-                <Textarea
-                  id="office_work_description"
-                  name="office_work_description"
-                  required
-                  value={officeWorkDescription}
-                  onChange={(e) => setOfficeWorkDescription(e.target.value)}
-                  placeholder="Yapılacak işi detaylı olarak açıklayın..."
-                  rows={4}
-                />
-              </div>
+              <>
+                <div>
+                  <Label htmlFor="customer_id">Müşteri (Opsiyonel)</Label>
+                  <Select
+                    id="customer_id"
+                    name="customer_id"
+                    value={selectedCustomerId}
+                    onChange={(e) => setSelectedCustomerId(e.target.value)}
+                  >
+                    <option value="">Müşteri seçin (opsiyonel)</option>
+                    {customers.map((customer) => (
+                      <option key={customer.id} value={customer.id}>
+                        {customer.name}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+                <div className="md:col-span-2">
+                  <Label htmlFor="office_work_description">Yapılacak İş *</Label>
+                  <Textarea
+                    id="office_work_description"
+                    name="office_work_description"
+                    required
+                    value={officeWorkDescription}
+                    onChange={(e) => setOfficeWorkDescription(e.target.value)}
+                    placeholder="Yapılacak işi detaylı olarak açıklayın..."
+                    rows={4}
+                  />
+                </div>
+              </>
             )}
 
             {workType === "customer" && (
@@ -262,17 +280,24 @@ export default function WorkOrderForm({
               </div>
             )}
 
-            {/* Hizmet otomatik seçili (tek hizmet: Arıza Bakım ve Malzeme Sipariş Fişi) */}
-            <input type="hidden" name="service_id" value={selectedServiceId} />
-            {services.length > 0 && (
-              <div>
-                <Label>Hizmet</Label>
-                <Input
-                  value={services.find(s => s.id === selectedServiceId)?.name || "Arıza Bakım ve Malzeme Sipariş Fişi"}
-                  disabled
-                  className="bg-gray-50 dark:bg-gray-800"
-                />
-              </div>
+            {/* Hizmet otomatik seçili (tek hizmet: Arıza Bakım ve Malzeme Sipariş Fişi) - Sadece müşteri işleri için */}
+            {workType === "customer" && (
+              <>
+                <input type="hidden" name="service_id" value={selectedServiceId} />
+                {services.length > 0 && (
+                  <div>
+                    <Label>Hizmet</Label>
+                    <Input
+                      value={services.find(s => s.id === selectedServiceId)?.name || "Arıza Bakım ve Malzeme Sipariş Fişi"}
+                      disabled
+                      className="bg-gray-50 dark:bg-gray-800"
+                    />
+                  </div>
+                )}
+              </>
+            )}
+            {workType === "office" && (
+              <input type="hidden" name="service_id" value="" />
             )}
 
             <div>
