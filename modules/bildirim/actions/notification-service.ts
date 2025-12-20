@@ -138,10 +138,58 @@ export async function notifyWorkOrderCreated(workOrderId: string, createdByUserI
     ? workOrder.service[0]
     : workOrder.service;
 
+  const isOfficeWork = (workOrder as any).work_type === "office";
+  const priorityText = workOrder.priority === "urgent" ? "Acil" : workOrder.priority === "high" ? "Yüksek" : workOrder.priority === "normal" ? "Normal" : "Düşük";
+
+  // Ofis işleri için sadece atanan kullanıcılara bildirim gönder
+  if (isOfficeWork && workOrder.assigned_to && workOrder.assigned_to.length > 0) {
+    const assignedUserIds = workOrder.assigned_to.filter((id: string) => id !== createdByUserId);
+    
+    if (assignedUserIds.length > 0) {
+      // Atanan kullanıcıları getir
+      const { data: assignedUsers } = await supabase
+        .from("profiles")
+        .select("id, full_name, email, phone")
+        .in("id", assignedUserIds);
+
+      if (assignedUsers && assignedUsers.length > 0) {
+        const message = `Yeni Ofis/İdari İş Emri oluşturuldu.\n\nİş Emri No: ${workOrder.order_number}\nYapılacak İş: ${(workOrder as any).office_work_description || "-"}\nÖncelik: ${priorityText}`;
+
+        // Bildirimleri oluştur
+        const notifications = assignedUsers.map((user) => ({
+          user_id: user.id,
+          type: "push",
+          title: "Yeni Ofis/İdari İş Emri",
+          message: message,
+          notification_type: "work_order_created" as NotificationType,
+          related_type: "work_order",
+          related_id: workOrderId,
+          target_roles: [],
+          is_read: false,
+        }));
+
+        // Bildirimleri kaydet
+        const { error: insertError } = await supabase
+          .from("notifications")
+          .insert(notifications);
+
+        if (insertError) {
+          console.error("Bildirim kaydetme hatası:", insertError);
+          return { error: insertError.message };
+        }
+
+        revalidatePath("/is-emri");
+        revalidatePath("/dashboard");
+        return { success: true, sent: notifications.length };
+      }
+    }
+  }
+
+  // Müşteri işleri için mevcut bildirim sistemi
   return await sendNotificationToRoles({
     type: "work_order_created",
     title: "Yeni İş Emri Oluşturuldu",
-    message: `Yeni iş emri oluşturuldu.\n\nİş Emri No: ${workOrder.order_number}\nMüşteri: ${customer?.name || "-"}\nHizmet: ${service?.name || "-"}\nÖncelik: ${workOrder.priority === "urgent" ? "Acil" : workOrder.priority === "high" ? "Yüksek" : workOrder.priority === "normal" ? "Normal" : "Düşük"}`,
+    message: `Yeni iş emri oluşturuldu.\n\nİş Emri No: ${workOrder.order_number}\nMüşteri: ${customer?.name || "-"}\nHizmet: ${service?.name || "-"}\nÖncelik: ${priorityText}`,
     targetRoles: ["saha_personeli", "saha_sefi", "ofis_sefi"],
     relatedType: "work_order",
     relatedId: workOrderId,

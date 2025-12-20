@@ -167,26 +167,35 @@ export default function WorkOrderWorkForm({
     setLoading(true);
     setError(null);
 
-    // customer_name'i service_form_data içine ekle
-    const updatedTechnicalFormData = {
-      ...technicalFormData,
-      customer_name: customerName,
-    };
-
     const formData = new FormData();
     formData.append("work_description", workDescription);
-    formData.append("service_form_data", JSON.stringify(updatedTechnicalFormData));
-    beforePhotos.forEach((photo) => {
-      formData.append("before_photos", photo);
-    });
-    afterPhotos.forEach((photo) => {
-      formData.append("after_photos", photo);
-    });
-    if (employeeSignature) {
-      formData.append("employee_signature", employeeSignature);
-    }
-    if (customerSignature) {
-      formData.append("customer_signature", customerSignature);
+    
+    // Müşteri işleri için teknik servis formu ve imzalar
+    if (!isOfficeWork) {
+      // customer_name'i service_form_data içine ekle
+      const updatedTechnicalFormData = {
+        ...technicalFormData,
+        customer_name: customerName,
+      };
+      formData.append("service_form_data", JSON.stringify(updatedTechnicalFormData));
+      beforePhotos.forEach((photo) => {
+        formData.append("before_photos", photo);
+      });
+      afterPhotos.forEach((photo) => {
+        formData.append("after_photos", photo);
+      });
+      if (employeeSignature) {
+        formData.append("employee_signature", employeeSignature);
+      }
+      if (customerSignature) {
+        formData.append("customer_signature", customerSignature);
+      }
+    } else {
+      // Ofis işleri için sadece dosyalar (before_photos ve after_photos birleştirilmiş)
+      const allFiles = [...beforePhotos, ...afterPhotos];
+      allFiles.forEach((file) => {
+        formData.append("before_photos", file);
+      });
     }
 
     const result = await updateWorkOrderForm(workOrder.id, formData);
@@ -201,10 +210,18 @@ export default function WorkOrderWorkForm({
   };
 
   const handleComplete = async () => {
-    // Araç bitiş kilometresi kontrolü
-    if (selectedVehicleId && (!vehicleEndKm || vehicleEndKm < (vehicleStartKm || 0))) {
-      setError("Lütfen geçerli bir bitiş kilometresi girin. Bitiş kilometresi başlangıç kilometresinden küçük olamaz.");
-      return;
+    // Ofis işleri için araç kontrolü yok
+    if (!isOfficeWork) {
+      // Araç bitiş kilometresi kontrolü (sadece müşteri işleri için)
+      if (selectedVehicleId && (!vehicleEndKm || vehicleEndKm < (vehicleStartKm || 0))) {
+        setError("Lütfen geçerli bir bitiş kilometresi girin. Bitiş kilometresi başlangıç kilometresinden küçük olamaz.");
+        return;
+      }
+      // İmza kontrolü (sadece müşteri işleri için)
+      if (!employeeSignature) {
+        setError("Lütfen çalışan imzasını ekleyin.");
+        return;
+      }
     }
 
     if (!confirm("İşi tamamlamak istediğinize emin misiniz? Bu işlem geri alınamaz.")) {
@@ -214,38 +231,47 @@ export default function WorkOrderWorkForm({
     setLoading(true);
     setError(null);
 
-    // Bitiş saatini al (HH:MM formatında)
-    const now = new Date();
-    const endTime = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
-    
-    // Technical form data'yı güncelle (bitiş saati ve customer_name ile)
-    const updatedFormData = {
-      ...technicalFormData,
-      end_time: endTime,
-      customer_name: customerName,
-    };
-    setTechnicalFormData(updatedFormData);
-
-    // Önce form verilerini kaydet (bitiş saati ile)
     const formData = new FormData();
     formData.append("work_description", workDescription);
-    formData.append("service_form_data", JSON.stringify(updatedFormData));
     
-    // Araç bitiş kilometresini ekle
-    if (selectedVehicleId && vehicleEndKm) {
-      formData.append("vehicle_end_km", vehicleEndKm.toString());
-    }
-    beforePhotos.forEach((photo) => {
-      formData.append("before_photos", photo);
-    });
-    afterPhotos.forEach((photo) => {
-      formData.append("after_photos", photo);
-    });
-    if (employeeSignature) {
-      formData.append("employee_signature", employeeSignature);
-    }
-    if (customerSignature) {
-      formData.append("customer_signature", customerSignature);
+    // Müşteri işleri için teknik servis formu, imzalar ve araç bilgileri
+    if (!isOfficeWork) {
+      // Bitiş saatini al (HH:MM formatında)
+      const now = new Date();
+      const endTime = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+      
+      // Technical form data'yı güncelle (bitiş saati ve customer_name ile)
+      const updatedFormData = {
+        ...technicalFormData,
+        end_time: endTime,
+        customer_name: customerName,
+      };
+      setTechnicalFormData(updatedFormData);
+      
+      formData.append("service_form_data", JSON.stringify(updatedFormData));
+      
+      // Araç bitiş kilometresini ekle
+      if (selectedVehicleId && vehicleEndKm) {
+        formData.append("vehicle_end_km", vehicleEndKm.toString());
+      }
+      beforePhotos.forEach((photo) => {
+        formData.append("before_photos", photo);
+      });
+      afterPhotos.forEach((photo) => {
+        formData.append("after_photos", photo);
+      });
+      if (employeeSignature) {
+        formData.append("employee_signature", employeeSignature);
+      }
+      if (customerSignature) {
+        formData.append("customer_signature", customerSignature);
+      }
+    } else {
+      // Ofis işleri için sadece dosyalar (before_photos ve after_photos birleştirilmiş)
+      const allFiles = [...beforePhotos, ...afterPhotos];
+      allFiles.forEach((file) => {
+        formData.append("before_photos", file);
+      });
     }
 
     await updateWorkOrderForm(workOrder.id, formData);
@@ -444,46 +470,72 @@ export default function WorkOrderWorkForm({
         </CardContent>
       </Card>
 
-      {/* Öncesi Fotoğrafları */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Öncesi Fotoğrafları</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <FileUpload
-            bucket="work-order-photos"
-            folder={`${workOrder.id}/before`}
-            accept="image/*"
-            multiple={true}
-            maxSize={5}
-            currentFiles={beforePhotos}
-            onUploadComplete={(urls) => setBeforePhotos(urls)}
-            onError={(err) => setError(err)}
-          />
-        </CardContent>
-      </Card>
+      {/* Dosyalar (Ofis işleri için tüm formatlar, müşteri işleri için fotoğraflar) */}
+      {isOfficeWork ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>Dosyalar</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <FileUpload
+              bucket="work-order-photos"
+              folder={`${workOrder.id}/files`}
+              accept="*/*"
+              multiple={true}
+              maxSize={10}
+              currentFiles={[...new Set([...beforePhotos, ...afterPhotos])]}
+              onUploadComplete={(urls) => {
+                setBeforePhotos(urls);
+                setAfterPhotos(urls);
+              }}
+              onError={(err) => setError(err)}
+            />
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          {/* Öncesi Fotoğrafları */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Öncesi Fotoğrafları</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <FileUpload
+                bucket="work-order-photos"
+                folder={`${workOrder.id}/before`}
+                accept="image/*"
+                multiple={true}
+                maxSize={5}
+                currentFiles={beforePhotos}
+                onUploadComplete={(urls) => setBeforePhotos(urls)}
+                onError={(err) => setError(err)}
+              />
+            </CardContent>
+          </Card>
 
-      {/* Sonrası Fotoğrafları */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Sonrası Fotoğrafları</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <FileUpload
-            bucket="work-order-photos"
-            folder={`${workOrder.id}/after`}
-            accept="image/*"
-            multiple={true}
-            maxSize={5}
-            currentFiles={afterPhotos}
-            onUploadComplete={(urls) => setAfterPhotos(urls)}
-            onError={(err) => setError(err)}
-          />
-        </CardContent>
-      </Card>
+          {/* Sonrası Fotoğrafları */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Sonrası Fotoğrafları</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <FileUpload
+                bucket="work-order-photos"
+                folder={`${workOrder.id}/after`}
+                accept="image/*"
+                multiple={true}
+                maxSize={5}
+                currentFiles={afterPhotos}
+                onUploadComplete={(urls) => setAfterPhotos(urls)}
+                onError={(err) => setError(err)}
+              />
+            </CardContent>
+          </Card>
+        </>
+      )}
 
-
-      {/* İmzalar */}
+      {/* İmzalar (Sadece müşteri işleri için) */}
+      {!isOfficeWork && (
       <div className="grid md:grid-cols-2 gap-6">
         {/* Çalışan İmzası */}
         <Card>
@@ -595,6 +647,7 @@ export default function WorkOrderWorkForm({
           </CardContent>
         </Card>
       </div>
+      )}
 
       {/* Kaydet ve Tamamla Butonları */}
       <div className="flex gap-2 mb-0 pb-0 last:mb-0">

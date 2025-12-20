@@ -110,20 +110,42 @@ export default function FileUpload({
     onUploadComplete?.(newFiles);
   };
 
+  const isImage = (url: string) => {
+    return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url);
+  };
+
+  const getFileName = (url: string) => {
+    try {
+      const urlParts = url.split('/');
+      return urlParts[urlParts.length - 1] || `Dosya ${url.length}`;
+    } catch {
+      return `Dosya`;
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex gap-4 flex-wrap">
         {uploadedFiles.map((url, index) => (
           <div key={index} className="relative group">
-            <img
-              src={url}
-              alt={`Preview ${index + 1}`}
-              className="w-24 h-24 object-cover rounded-lg border border-gray-300 dark:border-gray-700"
-            />
+            {isImage(url) ? (
+              <img
+                src={url}
+                alt={`Preview ${index + 1}`}
+                className="w-24 h-24 object-cover rounded-lg border border-gray-300 dark:border-gray-700"
+              />
+            ) : (
+              <div className="w-24 h-24 flex flex-col items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                <ImageIcon className="h-8 w-8 text-gray-400 mb-1" />
+                <span className="text-xs text-gray-500 dark:text-gray-400 text-center px-1 truncate w-full">
+                  {getFileName(url)}
+                </span>
+              </div>
+            )}
             <button
               type="button"
               onClick={() => handleRemove(index)}
-              aria-label={`Fotoğraf ${index + 1} kaldır`}
+              aria-label={`Dosya ${index + 1} kaldır`}
               className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
             >
               <X className="h-4 w-4" />
