@@ -12,6 +12,8 @@ interface WorkOrder {
   scheduled_date: string;
   status: string;
   priority: string;
+  work_type?: "customer" | "office";
+  office_work_description?: string | null;
   customer?: {
     name: string;
   } | null;
@@ -148,10 +150,14 @@ export default function WorkOrderCalendar({
                           ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
                           : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
                       }`}
-                      title={`${wo.customer?.name || "Müşteri Yok"} - ${wo.order_number}`}
+                      title={wo.work_type === "office" 
+                        ? `Ofis / İdari İşleri - ${wo.order_number}` 
+                        : `${wo.customer?.name || "Müşteri Yok"} - ${wo.order_number}`}
                     >
                       <div className="font-semibold truncate">
-                        {wo.customer?.name || "Müşteri Yok"}
+                        {wo.work_type === "office" 
+                          ? "📋 Ofis / İdari İşleri" 
+                          : (wo.customer?.name || "Müşteri Yok")}
                       </div>
                       <div className="text-[10px] opacity-80 truncate">
                         {wo.order_number}

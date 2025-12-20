@@ -41,9 +41,13 @@ export default async function WorkOrdersPage({
       id,
       order_number,
       status,
+      priority,
+      scheduled_date,
       created_at,
       started_at,
       completed_at,
+      work_type,
+      office_work_description,
       customer:customers!work_orders_customer_id_fkey(id, name, phone),
       service:services!work_orders_service_id_fkey(id, name)
     `,
@@ -63,7 +67,7 @@ export default async function WorkOrdersPage({
   }
 
   if (search) {
-    query = query.or(`order_number.ilike.%${search}%,customer:customers.name.ilike.%${search}%`);
+    query = query.or(`order_number.ilike.%${search}%,customer:customers.name.ilike.%${search}%,office_work_description.ilike.%${search}%`);
   }
 
   const { data: workOrders, count } = await query

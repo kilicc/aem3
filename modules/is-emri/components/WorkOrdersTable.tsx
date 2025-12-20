@@ -23,6 +23,8 @@ interface WorkOrder {
   scheduled_date: string | null;
   started_at: string | null;
   created_at: string;
+  work_type?: "customer" | "office";
+  office_work_description?: string | null;
   customer?: {
     id: string;
     name: string;
@@ -77,7 +79,7 @@ export default function WorkOrdersTable({
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 z-10" />
           <Input
-            placeholder="İş emri no veya müşteri adı ile ara..."
+            placeholder="İş emri no, müşteri adı veya yapılacak iş ile ara..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9 w-full"
@@ -138,12 +140,26 @@ export default function WorkOrdersTable({
                   >
                     <TableCell className="font-medium">{order.order_number}</TableCell>
                     <TableCell>
-                      <div>
-                        <div className="font-medium">{order.customer?.name || "-"}</div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          {order.customer?.phone || ""}
+                      {order.work_type === "office" ? (
+                        <div>
+                          <div className="font-medium text-purple-600 dark:text-purple-400">
+                            📋 Ofis / İdari İşleri
+                          </div>
+                          {order.office_work_description && (
+                            <div className="text-sm text-gray-500 dark:text-gray-400 mt-1 truncate max-w-xs">
+                              {order.office_work_description.substring(0, 50)}
+                              {order.office_work_description.length > 50 ? "..." : ""}
+                            </div>
+                          )}
                         </div>
-                      </div>
+                      ) : (
+                        <div>
+                          <div className="font-medium">{order.customer?.name || "-"}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            {order.customer?.phone || ""}
+                          </div>
+                        </div>
+                      )}
                     </TableCell>
                     <TableCell>{order.service?.name || "-"}</TableCell>
                     <TableCell>

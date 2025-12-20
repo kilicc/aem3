@@ -19,17 +19,19 @@ export default async function WorkOrderCalendarPage() {
 
   let query = supabase
     .from("work_orders")
-    .select(
+      .select(
+        `
+        id,
+        order_number,
+        scheduled_date,
+        status,
+        priority,
+        work_type,
+        office_work_description,
+        customer:customers!work_orders_customer_id_fkey(name),
+        service:services!work_orders_service_id_fkey(name)
       `
-      id,
-      order_number,
-      scheduled_date,
-      status,
-      priority,
-      customer:customers!work_orders_customer_id_fkey(name),
-      service:services!work_orders_service_id_fkey(name)
-    `
-    )
+      )
     .not("scheduled_date", "is", null);
 
   // Kullanıcılar sadece kendilerine atanan iş emirlerini görebilir
