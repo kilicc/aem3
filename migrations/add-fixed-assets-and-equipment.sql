@@ -270,3 +270,18 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Trigger: Her dağıtım oluşturulduğunda/güncellendiğinde tracking güncelle
+CREATE OR REPLACE FUNCTION trigger_update_periodic_product_tracking()
+RETURNS TRIGGER AS $$
+BEGIN
+  PERFORM update_periodic_product_tracking();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trigger_periodic_distribution_tracking ON periodic_product_distributions;
+CREATE TRIGGER trigger_periodic_distribution_tracking
+  AFTER INSERT OR UPDATE ON periodic_product_distributions
+  FOR EACH ROW
+  EXECUTE FUNCTION trigger_update_periodic_product_tracking();
+

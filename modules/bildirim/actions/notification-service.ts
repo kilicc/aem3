@@ -20,7 +20,9 @@ export type NotificationType =
   | "vehicle_maintenance_due"
   | "vehicle_maintenance_completed"
   | "yegis_form_created"
-  | "yegis_control_due";
+  | "yegis_control_due"
+  | "periodic_product_due_soon"
+  | "periodic_product_overdue";
 
 export type TargetRole =
   | "depo_sorunlusu"
