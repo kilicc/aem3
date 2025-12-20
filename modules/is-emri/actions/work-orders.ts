@@ -98,13 +98,14 @@ export async function createWorkOrder(formData: FormData) {
     if (!customerId || customerId.trim() === "") {
       return { error: "Müşteri seçilmedi" };
     }
+    if (!serviceId || serviceId.trim() === "") {
+      return { error: "Hizmet seçilmedi" };
+    }
   } else if (workType === "office") {
     if (!officeWorkDescription || officeWorkDescription.trim() === "") {
       return { error: "Yapılacak iş açıklaması gereklidir" };
     }
-  }
-  if (!serviceId || serviceId.trim() === "") {
-    return { error: "Hizmet seçilmedi" };
+    // Ofis işleri için hizmet opsiyonel
   }
   if (assignedTo.length === 0) {
     return { error: "En az bir çalışan seçilmelidir" };
