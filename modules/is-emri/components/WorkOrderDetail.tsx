@@ -29,6 +29,8 @@ import {
   Check,
   X,
   Download,
+  Image as ImageIcon,
+  File,
 } from "lucide-react";
 import {
   updateWorkOrderStatus,
@@ -410,48 +412,150 @@ export default function WorkOrderDetail({
         </Card>
       )}
 
-      {/* Fotoğraflar */}
+      {/* Dosyalar / Fotoğraflar */}
       {(workOrder.before_photos?.length > 0 ||
         workOrder.after_photos?.length > 0) && (
         <Card>
           <CardHeader>
-            <CardTitle>Fotoğraflar</CardTitle>
+            <CardTitle>
+              {workOrder.work_type === "office" ? "Dosyalar" : "Fotoğraflar"}
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            {workOrder.before_photos?.length > 0 && (
-              <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                  Öncesi
-                </h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {workOrder.before_photos.map((photo: string, index: number) => (
-                    <img
-                      key={index}
-                      src={photo}
-                      alt={`Öncesi ${index + 1}`}
-                      className="rounded-lg object-cover w-full h-32"
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-            {workOrder.after_photos?.length > 0 && (
-              <div>
-                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                  Sonrası
-                </h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {workOrder.after_photos.map((photo: string, index: number) => (
-                    <img
-                      key={index}
-                      src={photo}
-                      alt={`Sonrası ${index + 1}`}
-                      className="rounded-lg object-cover w-full h-32"
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
+            {(() => {
+              // Dosya türünü kontrol et
+              const isImage = (url: string) => {
+                return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url);
+              };
+
+              // Dosya adını al
+              const getFileName = (url: string) => {
+                try {
+                  const urlParts = url.split('/');
+                  return urlParts[urlParts.length - 1] || `Dosya`;
+                } catch {
+                  return `Dosya`;
+                }
+              };
+
+              // Ofis işleri için dosyaları birleştir (duplicate'leri kaldır)
+              const allFiles = workOrder.work_type === "office"
+                ? [...new Set([...(workOrder.before_photos || []), ...(workOrder.after_photos || [])])]
+                : [];
+
+              // Ofis işleri için birleştirilmiş dosyalar
+              if (workOrder.work_type === "office" && allFiles.length > 0) {
+                return (
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    {allFiles.map((fileUrl: string, index: number) => (
+                      <a
+                        key={index}
+                        href={fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative group flex flex-col items-center justify-center p-4 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                      >
+                        {isImage(fileUrl) ? (
+                          <img
+                            src={fileUrl}
+                            alt={`Dosya ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-lg"
+                          />
+                        ) : (
+                          <div className="w-full h-24 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <File className="h-8 w-8 text-gray-400 mb-2" />
+                            <span className="text-xs text-gray-500 dark:text-gray-400 text-center px-2 truncate w-full">
+                              {getFileName(fileUrl)}
+                            </span>
+                          </div>
+                        )}
+                        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Download className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                );
+              }
+
+              // Müşteri işleri için öncesi/sonrası ayrımı
+              return (
+                <>
+                  {workOrder.before_photos?.length > 0 && (
+                    <div className="mb-6">
+                      <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+                        Öncesi
+                      </h4>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {workOrder.before_photos.map((photo: string, index: number) => (
+                          <a
+                            key={index}
+                            href={photo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="relative group"
+                          >
+                            {isImage(photo) ? (
+                              <img
+                                src={photo}
+                                alt={`Öncesi ${index + 1}`}
+                                className="rounded-lg object-cover w-full h-32"
+                              />
+                            ) : (
+                              <div className="w-full h-32 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700">
+                                <File className="h-8 w-8 text-gray-400 mb-2" />
+                                <span className="text-xs text-gray-500 dark:text-gray-400 text-center px-2 truncate w-full">
+                                  {getFileName(photo)}
+                                </span>
+                              </div>
+                            )}
+                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <Download className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {workOrder.after_photos?.length > 0 && (
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+                        Sonrası
+                      </h4>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {workOrder.after_photos.map((photo: string, index: number) => (
+                          <a
+                            key={index}
+                            href={photo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="relative group"
+                          >
+                            {isImage(photo) ? (
+                              <img
+                                src={photo}
+                                alt={`Sonrası ${index + 1}`}
+                                className="rounded-lg object-cover w-full h-32"
+                              />
+                            ) : (
+                              <div className="w-full h-32 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700">
+                                <File className="h-8 w-8 text-gray-400 mb-2" />
+                                <span className="text-xs text-gray-500 dark:text-gray-400 text-center px-2 truncate w-full">
+                                  {getFileName(photo)}
+                                </span>
+                              </div>
+                            )}
+                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <Download className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </CardContent>
         </Card>
       )}

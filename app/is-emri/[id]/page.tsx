@@ -38,7 +38,9 @@ export default async function WorkOrderDetailPage({
       customer:customers!work_orders_customer_id_fkey(id, name, phone, email, address, latitude, longitude),
       customer_device:customer_devices!work_orders_customer_device_id_fkey(id, device_type, device_name, serial_number),
       service:services!work_orders_service_id_fkey(id, name, service_form_template),
-      created_by_profile:profiles!work_orders_created_by_fkey(id, full_name, email)
+      created_by_profile:profiles!work_orders_created_by_fkey(id, full_name, email),
+      work_type,
+      office_work_description
     `
     )
     .eq("id", workOrderId)
