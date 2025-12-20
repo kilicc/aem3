@@ -98,6 +98,7 @@ ALTER TABLE periodic_product_distributions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE periodic_product_tracking ENABLE ROW LEVEL SECURITY;
 
 -- Fixed Assets Policies
+DROP POLICY IF EXISTS "Admins can view all fixed assets" ON fixed_assets;
 CREATE POLICY "Admins can view all fixed assets" ON fixed_assets
   FOR SELECT USING (
     EXISTS (
@@ -106,6 +107,7 @@ CREATE POLICY "Admins can view all fixed assets" ON fixed_assets
     )
   );
 
+DROP POLICY IF EXISTS "Admins can insert fixed assets" ON fixed_assets;
 CREATE POLICY "Admins can insert fixed assets" ON fixed_assets
   FOR INSERT WITH CHECK (
     EXISTS (
@@ -114,6 +116,7 @@ CREATE POLICY "Admins can insert fixed assets" ON fixed_assets
     )
   );
 
+DROP POLICY IF EXISTS "Admins can update fixed assets" ON fixed_assets;
 CREATE POLICY "Admins can update fixed assets" ON fixed_assets
   FOR UPDATE USING (
     EXISTS (
@@ -122,6 +125,7 @@ CREATE POLICY "Admins can update fixed assets" ON fixed_assets
     )
   );
 
+DROP POLICY IF EXISTS "Admins can delete fixed assets" ON fixed_assets;
 CREATE POLICY "Admins can delete fixed assets" ON fixed_assets
   FOR DELETE USING (
     EXISTS (
@@ -131,6 +135,7 @@ CREATE POLICY "Admins can delete fixed assets" ON fixed_assets
   );
 
 -- Equipment Policies
+DROP POLICY IF EXISTS "Admins can view all equipment" ON equipment;
 CREATE POLICY "Admins can view all equipment" ON equipment
   FOR SELECT USING (
     EXISTS (
@@ -139,6 +144,7 @@ CREATE POLICY "Admins can view all equipment" ON equipment
     )
   );
 
+DROP POLICY IF EXISTS "Admins can insert equipment" ON equipment;
 CREATE POLICY "Admins can insert equipment" ON equipment
   FOR INSERT WITH CHECK (
     EXISTS (
@@ -147,6 +153,7 @@ CREATE POLICY "Admins can insert equipment" ON equipment
     )
   );
 
+DROP POLICY IF EXISTS "Admins can update equipment" ON equipment;
 CREATE POLICY "Admins can update equipment" ON equipment
   FOR UPDATE USING (
     EXISTS (
@@ -155,6 +162,7 @@ CREATE POLICY "Admins can update equipment" ON equipment
     )
   );
 
+DROP POLICY IF EXISTS "Admins can delete equipment" ON equipment;
 CREATE POLICY "Admins can delete equipment" ON equipment
   FOR DELETE USING (
     EXISTS (
@@ -164,6 +172,7 @@ CREATE POLICY "Admins can delete equipment" ON equipment
   );
 
 -- Periodic Product Distributions Policies
+DROP POLICY IF EXISTS "Admins can view all periodic distributions" ON periodic_product_distributions;
 CREATE POLICY "Admins can view all periodic distributions" ON periodic_product_distributions
   FOR SELECT USING (
     EXISTS (
@@ -172,9 +181,11 @@ CREATE POLICY "Admins can view all periodic distributions" ON periodic_product_d
     )
   );
 
+DROP POLICY IF EXISTS "Users can view own periodic distributions" ON periodic_product_distributions;
 CREATE POLICY "Users can view own periodic distributions" ON periodic_product_distributions
   FOR SELECT USING (employee_id = auth.uid());
 
+DROP POLICY IF EXISTS "Admins can insert periodic distributions" ON periodic_product_distributions;
 CREATE POLICY "Admins can insert periodic distributions" ON periodic_product_distributions
   FOR INSERT WITH CHECK (
     EXISTS (
@@ -183,6 +194,7 @@ CREATE POLICY "Admins can insert periodic distributions" ON periodic_product_dis
     )
   );
 
+DROP POLICY IF EXISTS "Admins can update periodic distributions" ON periodic_product_distributions;
 CREATE POLICY "Admins can update periodic distributions" ON periodic_product_distributions
   FOR UPDATE USING (
     EXISTS (
@@ -191,6 +203,7 @@ CREATE POLICY "Admins can update periodic distributions" ON periodic_product_dis
     )
   );
 
+DROP POLICY IF EXISTS "Admins can delete periodic distributions" ON periodic_product_distributions;
 CREATE POLICY "Admins can delete periodic distributions" ON periodic_product_distributions
   FOR DELETE USING (
     EXISTS (
@@ -200,6 +213,7 @@ CREATE POLICY "Admins can delete periodic distributions" ON periodic_product_dis
   );
 
 -- Periodic Product Tracking Policies
+DROP POLICY IF EXISTS "Admins can view all periodic tracking" ON periodic_product_tracking;
 CREATE POLICY "Admins can view all periodic tracking" ON periodic_product_tracking
   FOR SELECT USING (
     EXISTS (
@@ -208,6 +222,7 @@ CREATE POLICY "Admins can view all periodic tracking" ON periodic_product_tracki
     )
   );
 
+DROP POLICY IF EXISTS "Users can view own periodic tracking" ON periodic_product_tracking;
 CREATE POLICY "Users can view own periodic tracking" ON periodic_product_tracking
   FOR SELECT USING (employee_id = auth.uid());
 
