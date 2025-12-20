@@ -21,7 +21,8 @@ export async function createWorkOrder(formData: FormData) {
     return { error: "Forbidden" };
   }
 
-  const customerId = formData.get("customer_id") as string;
+  const workType = (formData.get("work_type") as "customer" | "office") || "customer";
+  const customerId = formData.get("customer_id") as string | null;
   let customerDeviceId = formData.get("customer_device_id") as string | null;
   // Boş string'leri null'a çevir
   if (customerDeviceId === "" || customerDeviceId === null) {
@@ -32,6 +33,7 @@ export async function createWorkOrder(formData: FormData) {
   const priority = formData.get("priority") as string;
   const scheduledDate = formData.get("scheduled_date") as string | null;
   const scheduledTime = formData.get("scheduled_time") as string | null;
+  const officeWorkDescription = formData.get("office_work_description") as string | null;
   
   // Tarih ve saat bilgisini birleştir
   let scheduledDateTime = null;
@@ -43,13 +45,13 @@ export async function createWorkOrder(formData: FormData) {
     }
   }
 
-  // Yeni cihaz oluşturma kontrolü
+  // Yeni cihaz oluşturma kontrolü (sadece müşteri işleri için)
   const newDeviceType = formData.get("new_device_type") as string | null;
   const newDeviceName = formData.get("new_device_name") as string | null;
   const newSerialNumber = formData.get("new_serial_number") as string | null;
   const customerIdForDevice = formData.get("customer_id_for_device") as string | null;
 
-  if (newDeviceType && newDeviceName) {
+  if (newDeviceType && newDeviceName && workType === "customer") {
     // Yeni cihaz oluşturulurken müşteri ID kontrolü
     // customerIdForDevice varsa onu kullan, yoksa customerId'yi kullan
     const deviceCustomerId = customerIdForDevice || customerId;
@@ -92,8 +94,14 @@ export async function createWorkOrder(formData: FormData) {
   }
 
   // UUID validasyonu
-  if (!customerId || customerId.trim() === "") {
-    return { error: "Müşteri seçilmedi" };
+  if (workType === "customer") {
+    if (!customerId || customerId.trim() === "") {
+      return { error: "Müşteri seçilmedi" };
+    }
+  } else if (workType === "office") {
+    if (!officeWorkDescription || officeWorkDescription.trim() === "") {
+      return { error: "Yapılacak iş açıklaması gereklidir" };
+    }
   }
   if (!serviceId || serviceId.trim() === "") {
     return { error: "Hizmet seçilmedi" };
@@ -106,13 +114,15 @@ export async function createWorkOrder(formData: FormData) {
     .from("work_orders")
     .insert({
       order_number: orderNumber,
-      customer_id: customerId,
-      customer_device_id: customerDeviceId || null,
+      customer_id: workType === "customer" ? customerId : null,
+      customer_device_id: workType === "customer" ? (customerDeviceId || null) : null,
       service_id: serviceId,
       assigned_to: assignedTo.length > 0 ? assignedTo : [],
       priority: priority || "normal",
       status: "pending",
       scheduled_date: scheduledDateTime,
+      work_type: workType,
+      office_work_description: workType === "office" ? officeWorkDescription : null,
       created_by: user.id,
     })
     .select()
@@ -301,7 +311,8 @@ export async function updateWorkOrder(id: string, formData: FormData) {
     return { error: "Forbidden" };
   }
 
-  const customerId = formData.get("customer_id") as string;
+  const workType = formData.get("work_type") as "customer" | "office" || "customer";
+  const customerId = formData.get("customer_id") as string | null;
   let customerDeviceId = formData.get("customer_device_id") as string | null;
   // Boş string'leri null'a çevir
   if (customerDeviceId === "" || customerDeviceId === null) {
@@ -313,6 +324,7 @@ export async function updateWorkOrder(id: string, formData: FormData) {
   const scheduledDate = formData.get("scheduled_date") as string | null;
   const scheduledTime = formData.get("scheduled_time") as string | null;
   const status = formData.get("status") as string;
+  const officeWorkDescription = formData.get("office_work_description") as string | null;
   
   // Tarih ve saat bilgisini birleştir
   let scheduledDateTime = null;
@@ -325,8 +337,14 @@ export async function updateWorkOrder(id: string, formData: FormData) {
   }
 
   // UUID validasyonu
-  if (!customerId || customerId.trim() === "") {
-    return { error: "Müşteri seçilmedi" };
+  if (workType === "customer") {
+    if (!customerId || customerId.trim() === "") {
+      return { error: "Müşteri seçilmedi" };
+    }
+  } else if (workType === "office") {
+    if (!officeWorkDescription || officeWorkDescription.trim() === "") {
+      return { error: "Yapılacak iş açıklaması gereklidir" };
+    }
   }
   if (!serviceId || serviceId.trim() === "") {
     return { error: "Hizmet seçilmedi" };
@@ -335,13 +353,15 @@ export async function updateWorkOrder(id: string, formData: FormData) {
   const { data, error } = await supabase
     .from("work_orders")
     .update({
-      customer_id: customerId,
-      customer_device_id: customerDeviceId || null,
+      customer_id: workType === "customer" ? customerId : null,
+      customer_device_id: workType === "customer" ? (customerDeviceId || null) : null,
       service_id: serviceId,
       assigned_to: assignedTo.length > 0 ? assignedTo : [],
       priority,
       status,
       scheduled_date: scheduledDateTime,
+      work_type: workType,
+      office_work_description: workType === "office" ? officeWorkDescription : null,
     })
     .eq("id", id)
     .select()

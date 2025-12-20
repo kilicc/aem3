@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { createClient } from "@/lib/supabase/client";
 
 interface Customer {
@@ -64,6 +65,12 @@ export default function WorkOrderForm({
     workOrder?.service_id || services[0]?.id || ""
   );
   const [showNewDeviceForm, setShowNewDeviceForm] = useState(false);
+  const [workType, setWorkType] = useState<"customer" | "office">(
+    (workOrder as any)?.work_type || "customer"
+  );
+  const [officeWorkDescription, setOfficeWorkDescription] = useState(
+    (workOrder as any)?.office_work_description || ""
+  );
 
   // İlk yüklemede tek hizmeti seç
   useEffect(() => {
@@ -95,6 +102,11 @@ export default function WorkOrderForm({
     setError(null);
 
     const formData = new FormData(e.currentTarget);
+    formData.set("work_type", workType);
+    if (workType === "office") {
+      formData.set("office_work_description", officeWorkDescription);
+      formData.set("customer_id", ""); // Boş gönder
+    }
 
     const result = workOrder
       ? await updateWorkOrder(workOrder.id, formData)
@@ -118,40 +130,81 @@ export default function WorkOrderForm({
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div>
-              <Label htmlFor="customer_id">Müşteri *</Label>
-              <Select
-                id="customer_id"
-                name="customer_id"
-                required
-                value={selectedCustomerId}
-                onChange={(e) => setSelectedCustomerId(e.target.value)}
-              >
-                <option value="">Müşteri seçin</option>
-                {customers.map((customer) => (
-                  <option key={customer.id} value={customer.id}>
-                    {customer.name}
-                  </option>
-                ))}
-              </Select>
-            </div>
+          {/* İş Tipi Seçimi */}
+          <div>
+            <Label htmlFor="work_type">İş Tipi *</Label>
+            <Select
+              id="work_type"
+              name="work_type"
+              required
+              value={workType}
+              onChange={(e) => {
+                const newWorkType = e.target.value as "customer" | "office";
+                setWorkType(newWorkType);
+                if (newWorkType === "office") {
+                  setSelectedCustomerId("");
+                  setSelectedDeviceId("");
+                  setDevices([]);
+                }
+              }}
+            >
+              <option value="customer">Müşteri İşi</option>
+              <option value="office">Ofis / İdari İşleri</option>
+            </Select>
+          </div>
 
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <Label htmlFor="customer_device_id">Cihaz (Opsiyonel)</Label>
-                {selectedCustomerId && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setShowNewDeviceForm(!showNewDeviceForm)}
+          <div className="grid gap-4 md:grid-cols-2">
+            {workType === "customer" ? (
+              <>
+                <div>
+                  <Label htmlFor="customer_id">Müşteri *</Label>
+                  <Select
+                    id="customer_id"
+                    name="customer_id"
+                    required
+                    value={selectedCustomerId}
+                    onChange={(e) => setSelectedCustomerId(e.target.value)}
                   >
-                    {showNewDeviceForm ? "İptal" : "+ Yeni Cihaz"}
-                  </Button>
-                )}
+                    <option value="">Müşteri seçin</option>
+                    {customers.map((customer) => (
+                      <option key={customer.id} value={customer.id}>
+                        {customer.name}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              </>
+            ) : (
+              <div className="md:col-span-2">
+                <Label htmlFor="office_work_description">Yapılacak İş *</Label>
+                <Textarea
+                  id="office_work_description"
+                  name="office_work_description"
+                  required
+                  value={officeWorkDescription}
+                  onChange={(e) => setOfficeWorkDescription(e.target.value)}
+                  placeholder="Yapılacak işi detaylı olarak açıklayın..."
+                  rows={4}
+                />
               </div>
-              {showNewDeviceForm ? (
+            )}
+
+            {workType === "customer" && (
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <Label htmlFor="customer_device_id">Cihaz (Opsiyonel)</Label>
+                  {selectedCustomerId && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowNewDeviceForm(!showNewDeviceForm)}
+                    >
+                      {showNewDeviceForm ? "İptal" : "+ Yeni Cihaz"}
+                    </Button>
+                  )}
+                </div>
+                {showNewDeviceForm ? (
                 <div className="space-y-3 p-4 border rounded-lg bg-gray-50 dark:bg-gray-800">
                   <input type="hidden" name="customer_id_for_device" value={selectedCustomerId} />
                   <div>
@@ -205,8 +258,9 @@ export default function WorkOrderForm({
                     </option>
                   ))}
                 </Select>
-              )}
-            </div>
+                )}
+              </div>
+            )}
 
             {/* Hizmet otomatik seçili (tek hizmet: Arıza Bakım ve Malzeme Sipariş Fişi) */}
             <input type="hidden" name="service_id" value={selectedServiceId} />

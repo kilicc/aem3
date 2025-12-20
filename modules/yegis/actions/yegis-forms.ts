@@ -59,6 +59,18 @@ export async function createYegisForm(formData: FormData) {
   const { data: formNumberData } = await supabase.rpc("generate_yegis_form_number");
   const form_number = formNumberData || `YEGIS-${new Date().getFullYear()}-${Date.now()}`;
 
+  // Kontrol tarihine göre next_control_date hesapla (1 ay sonra)
+  const controlDate = formData.get("control_date") as string;
+  let nextControlDate: string | undefined;
+  if (controlDate) {
+    const controlDateObj = new Date(controlDate);
+    controlDateObj.setMonth(controlDateObj.getMonth() + 1);
+    nextControlDate = controlDateObj.toISOString().split("T")[0];
+  }
+  // Eğer formData'da next_control_date varsa onu kullan, yoksa otomatik hesaplananı kullan
+  const providedNextControlDate = formData.get("next_control_date") as string;
+  const finalNextControlDate = providedNextControlDate || nextControlDate;
+
   const yegisForm: Partial<YegisFormData> = {
     customer_id: formData.get("customer_id") as string,
     form_number,
@@ -117,6 +129,48 @@ export async function createYegisForm(formData: FormData) {
     }
   }
 
+  // Yeni JSONB alanları
+  const meterReadingsStr = formData.get("meter_readings");
+  if (meterReadingsStr) {
+    try {
+      (yegisForm as any).meter_readings = JSON.parse(meterReadingsStr as string);
+    } catch (e) {
+      // JSON parse hatası
+    }
+  }
+
+  const controlChecklistStr = formData.get("control_checklist");
+  if (controlChecklistStr) {
+    try {
+      (yegisForm as any).control_checklist = JSON.parse(controlChecklistStr as string);
+    } catch (e) {
+      // JSON parse hatası
+    }
+  }
+
+  const groundingMeasurementsStr = formData.get("grounding_measurements");
+  if (groundingMeasurementsStr) {
+    try {
+      (yegisForm as any).grounding_measurements = JSON.parse(groundingMeasurementsStr as string);
+    } catch (e) {
+      // JSON parse hatası
+    }
+  }
+
+  // Yeni alanlar
+  (yegisForm as any).tm_number = formData.get("tm_number") as string || undefined;
+  (yegisForm as any).installation_number = formData.get("installation_number") as string || undefined;
+  (yegisForm as any).meter_multiplier = formData.get("meter_multiplier") as string || undefined;
+  (yegisForm as any).transformer_voltage = formData.get("transformer_voltage") as string || undefined;
+  (yegisForm as any).center_type = formData.get("center_type") as string || undefined;
+  (yegisForm as any).cos_q_value = formData.get("cos_q_value") as string || undefined;
+  (yegisForm as any).cos_q_suitable = formData.get("cos_q_suitable") === "true" || formData.get("cos_q_suitable") === "on" || false;
+  (yegisForm as any).inductive_active_ratio = formData.get("inductive_active_ratio") as string || undefined;
+  (yegisForm as any).inductive_active_suitable = formData.get("inductive_active_suitable") === "true" || formData.get("inductive_active_suitable") === "on" || false;
+  (yegisForm as any).capacitive_active_ratio = formData.get("capacitive_active_ratio") as string || undefined;
+  (yegisForm as any).capacitive_active_suitable = formData.get("capacitive_active_suitable") === "true" || formData.get("capacitive_active_suitable") === "on" || false;
+  (yegisForm as any).demant_value = formData.get("demant_value") as string || undefined;
+
   const { data, error } = await supabase
     .from("yegis_forms")
     .insert(yegisForm)
@@ -126,6 +180,17 @@ export async function createYegisForm(formData: FormData) {
   if (error) {
     console.error("YEGİS form oluşturma hatası:", error);
     return { error: error.message };
+  }
+
+  // YEGİS form oluşturulduğunda bildirim gönder
+  if (data?.id) {
+    try {
+      const { notifyYegisFormCreated } = await import("@/modules/bildirim/actions/yegis-notifications");
+      await notifyYegisFormCreated(data.id);
+    } catch (notifError) {
+      console.error("YEGİS bildirim gönderme hatası:", notifError);
+      // Bildirim hatası form oluşturmayı engellemez
+    }
   }
 
   revalidatePath("/yegis");
@@ -198,6 +263,48 @@ export async function updateYegisForm(id: string, formData: FormData) {
       // JSON parse hatası
     }
   }
+
+  // Yeni JSONB alanları
+  const meterReadingsStr = formData.get("meter_readings");
+  if (meterReadingsStr) {
+    try {
+      (yegisForm as any).meter_readings = JSON.parse(meterReadingsStr as string);
+    } catch (e) {
+      // JSON parse hatası
+    }
+  }
+
+  const controlChecklistStr = formData.get("control_checklist");
+  if (controlChecklistStr) {
+    try {
+      (yegisForm as any).control_checklist = JSON.parse(controlChecklistStr as string);
+    } catch (e) {
+      // JSON parse hatası
+    }
+  }
+
+  const groundingMeasurementsStr = formData.get("grounding_measurements");
+  if (groundingMeasurementsStr) {
+    try {
+      (yegisForm as any).grounding_measurements = JSON.parse(groundingMeasurementsStr as string);
+    } catch (e) {
+      // JSON parse hatası
+    }
+  }
+
+  // Yeni alanlar
+  (yegisForm as any).tm_number = formData.get("tm_number") as string || undefined;
+  (yegisForm as any).installation_number = formData.get("installation_number") as string || undefined;
+  (yegisForm as any).meter_multiplier = formData.get("meter_multiplier") as string || undefined;
+  (yegisForm as any).transformer_voltage = formData.get("transformer_voltage") as string || undefined;
+  (yegisForm as any).center_type = formData.get("center_type") as string || undefined;
+  (yegisForm as any).cos_q_value = formData.get("cos_q_value") as string || undefined;
+  (yegisForm as any).cos_q_suitable = formData.get("cos_q_suitable") === "true" || formData.get("cos_q_suitable") === "on" || false;
+  (yegisForm as any).inductive_active_ratio = formData.get("inductive_active_ratio") as string || undefined;
+  (yegisForm as any).inductive_active_suitable = formData.get("inductive_active_suitable") === "true" || formData.get("inductive_active_suitable") === "on" || false;
+  (yegisForm as any).capacitive_active_ratio = formData.get("capacitive_active_ratio") as string || undefined;
+  (yegisForm as any).capacitive_active_suitable = formData.get("capacitive_active_suitable") === "true" || formData.get("capacitive_active_suitable") === "on" || false;
+  (yegisForm as any).demant_value = formData.get("demant_value") as string || undefined;
 
   const { data, error } = await supabase
     .from("yegis_forms")

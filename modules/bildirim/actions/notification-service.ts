@@ -18,7 +18,9 @@ export type NotificationType =
   | "customer_created"
   | "customer_updated"
   | "vehicle_maintenance_due"
-  | "vehicle_maintenance_completed";
+  | "vehicle_maintenance_completed"
+  | "yegis_form_created"
+  | "yegis_control_due";
 
 export type TargetRole =
   | "depo_sorunlusu"

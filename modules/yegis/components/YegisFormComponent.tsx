@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SignaturePad from "@/components/ui/signature-pad";
 import { Textarea } from "@/components/ui/textarea";
+import YegisFormAdditionalSections from "./YegisFormAdditionalSections";
 
 interface Customer {
   id: string;
@@ -85,6 +86,40 @@ export default function YegisFormComponent({ form, customer }: YegisFormComponen
   const [facilityCity, setFacilityCity] = useState(form?.facility_city || "");
   const [facilityDistrict, setFacilityDistrict] = useState(form?.facility_district || "");
   const [facilityPhone, setFacilityPhone] = useState(form?.facility_phone || "");
+  const [centerType, setCenterType] = useState((form as any)?.center_type || ""); // MERKEZ TİPİ
+
+  // Header bilgileri
+  const [tmNumber, setTmNumber] = useState((form as any)?.tm_number || ""); // T.M. NO
+  const [installationNumber, setInstallationNumber] = useState((form as any)?.installation_number || ""); // TESİSAT NO
+  const [meterMultiplier, setMeterMultiplier] = useState((form as any)?.meter_multiplier || ""); // SAYAÇ ÇARPAN
+  const [transformerVoltage, setTransformerVoltage] = useState((form as any)?.transformer_voltage || ""); // TRAFO GERİLİM
+
+  // Endeks/Sayaç okumaları
+  const [meterReadings, setMeterReadings] = useState<any>((form as any)?.meter_readings || {
+    firstIndex: { "1.8.0": "", "1.8.1": "", "1.8.2": "", "1.8.3": "", "5.8.0": "", "8.8.0": "" },
+    lastIndex: { "1.8.0": "", "1.8.1": "", "1.8.2": "", "1.8.3": "", "5.8.0": "", "8.8.0": "" },
+    monthlyConsumption: { "1.8.0": "", "1.8.1": "", "1.8.2": "", "1.8.3": "", "5.8.0": "", "8.8.0": "" }
+  });
+
+  // Kontrol oranları
+  const [cosQValue, setCosQValue] = useState((form as any)?.cos_q_value || "");
+  const [cosQSuitable, setCosQSuitable] = useState((form as any)?.cos_q_suitable || false);
+  const [inductiveActiveRatio, setInductiveActiveRatio] = useState((form as any)?.inductive_active_ratio || "");
+  const [inductiveActiveSuitable, setInductiveActiveSuitable] = useState((form as any)?.inductive_active_suitable || false);
+  const [capacitiveActiveRatio, setCapacitiveActiveRatio] = useState((form as any)?.capacitive_active_ratio || "");
+  const [capacitiveActiveSuitable, setCapacitiveActiveSuitable] = useState((form as any)?.capacitive_active_suitable || false);
+  const [demantValue, setDemantValue] = useState((form as any)?.demant_value || "");
+
+  // Kontrol checklist
+  const [controlChecklist, setControlChecklist] = useState<any>((form as any)?.control_checklist || {});
+
+  // Topraklama ölçümleri
+  const [groundingMeasurements, setGroundingMeasurements] = useState<any>((form as any)?.grounding_measurements || {
+    adp: { protection: "", operation: "", suitable: false, notSuitable: false },
+    parafudr: { protection: "", suitable: false, notSuitable: false },
+    direk: { protection: "", suitable: false, notSuitable: false },
+    kosk: { protection: "", suitable: false, notSuitable: false }
+  });
 
   // Trafo/OG İşletme bilgileri
   const [transformerPower, setTransformerPower] = useState(form?.transformer_power || "");
@@ -131,6 +166,25 @@ export default function YegisFormComponent({ form, customer }: YegisFormComponen
     const formData = new FormData(formElement);
     formData.set("status", status);
     formData.set("customer_id", form?.customer_id || customer?.id || "");
+    
+    // Yeni alanlar
+    formData.set("tm_number", tmNumber);
+    formData.set("installation_number", installationNumber);
+    formData.set("meter_multiplier", meterMultiplier);
+    formData.set("transformer_voltage", transformerVoltage);
+    formData.set("center_type", centerType);
+    formData.set("cos_q_value", cosQValue);
+    formData.set("cos_q_suitable", cosQSuitable ? "true" : "false");
+    formData.set("inductive_active_ratio", inductiveActiveRatio);
+    formData.set("inductive_active_suitable", inductiveActiveSuitable ? "true" : "false");
+    formData.set("capacitive_active_ratio", capacitiveActiveRatio);
+    formData.set("capacitive_active_suitable", capacitiveActiveSuitable ? "true" : "false");
+    formData.set("demant_value", demantValue);
+    
+    // JSONB alanları ekle
+    formData.set("meter_readings", JSON.stringify(meterReadings));
+    formData.set("control_checklist", JSON.stringify(controlChecklist));
+    formData.set("grounding_measurements", JSON.stringify(groundingMeasurements));
 
     const result = form?.id
       ? await updateYegisForm(form.id, formData)
@@ -285,6 +339,66 @@ export default function YegisFormComponent({ form, customer }: YegisFormComponen
                 onChange={(e) => setFacilityDistrict(e.target.value)}
               />
             </div>
+            <div>
+              <Label htmlFor="center_type">Merkez Tipi</Label>
+              <Input
+                id="center_type"
+                name="center_type"
+                value={centerType}
+                onChange={(e) => setCenterType(e.target.value)}
+                placeholder="Bina, vb."
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Header Bilgileri */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Form Bilgileri</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <Label htmlFor="tm_number">T.M. NO</Label>
+              <Input
+                id="tm_number"
+                name="tm_number"
+                value={tmNumber}
+                onChange={(e) => setTmNumber(e.target.value)}
+                placeholder="7M-1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="installation_number">Tesisat No</Label>
+              <Input
+                id="installation_number"
+                name="installation_number"
+                value={installationNumber}
+                onChange={(e) => setInstallationNumber(e.target.value)}
+                placeholder="22634273"
+              />
+            </div>
+            <div>
+              <Label htmlFor="meter_multiplier">Sayaç Çarpan</Label>
+              <Input
+                id="meter_multiplier"
+                name="meter_multiplier"
+                value={meterMultiplier}
+                onChange={(e) => setMeterMultiplier(e.target.value)}
+              />
+            </div>
+            <div>
+              <Label htmlFor="transformer_voltage">Trafo Gerilim</Label>
+              <Input
+                id="transformer_voltage"
+                name="transformer_voltage"
+                value={transformerVoltage}
+                onChange={(e) => setTransformerVoltage(e.target.value)}
+                placeholder="34,5kv"
+              />
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -408,6 +522,30 @@ export default function YegisFormComponent({ form, customer }: YegisFormComponen
           </div>
         </CardContent>
       </Card>
+
+      {/* Ek Bölümler (Endeks, Kontrol Oranları, Checklist, Topraklama) */}
+      <YegisFormAdditionalSections
+        meterReadings={meterReadings}
+        setMeterReadings={setMeterReadings}
+        cosQValue={cosQValue}
+        setCosQValue={setCosQValue}
+        cosQSuitable={cosQSuitable}
+        setCosQSuitable={setCosQSuitable}
+        inductiveActiveRatio={inductiveActiveRatio}
+        setInductiveActiveRatio={setInductiveActiveRatio}
+        inductiveActiveSuitable={inductiveActiveSuitable}
+        setInductiveActiveSuitable={setInductiveActiveSuitable}
+        capacitiveActiveRatio={capacitiveActiveRatio}
+        setCapacitiveActiveRatio={setCapacitiveActiveRatio}
+        capacitiveActiveSuitable={capacitiveActiveSuitable}
+        setCapacitiveActiveSuitable={setCapacitiveActiveSuitable}
+        demantValue={demantValue}
+        setDemantValue={setDemantValue}
+        controlChecklist={controlChecklist}
+        setControlChecklist={setControlChecklist}
+        groundingMeasurements={groundingMeasurements}
+        setGroundingMeasurements={setGroundingMeasurements}
+      />
 
       {/* Bulgular ve Öneriler */}
       <Card>
