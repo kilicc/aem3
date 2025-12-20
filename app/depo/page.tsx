@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import AppLayout from "@/components/layout/AppLayout";
 import Link from "next/link";
-import { Warehouse, Package, Wrench, BarChart3 } from "lucide-react";
+import { Warehouse, Package, Wrench, BarChart3, Building2, Shirt, Calendar } from "lucide-react";
 import StockList from "@/components/depo/StockList";
 
 export default async function DepoPage() {
@@ -36,7 +36,7 @@ export default async function DepoPage() {
         </div>
 
         {/* Hızlı Erişim Kartları */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
           <Link href="/depo/warehouses">
             <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow transition-shadow hover:shadow-lg cursor-pointer">
               <div className="flex items-center gap-4">
@@ -103,6 +103,60 @@ export default async function DepoPage() {
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     Stok ekle/düzenle
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/depo/fixed-assets">
+            <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow transition-shadow hover:shadow-lg cursor-pointer">
+              <div className="flex items-center gap-4">
+                <div className="rounded-full bg-indigo-100 dark:bg-indigo-900 p-3">
+                  <Building2 className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">
+                    Demirbaşlar
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Demirbaş yönetimi
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/depo/equipment">
+            <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow transition-shadow hover:shadow-lg cursor-pointer">
+              <div className="flex items-center gap-4">
+                <div className="rounded-full bg-pink-100 dark:bg-pink-900 p-3">
+                  <Shirt className="h-6 w-6 text-pink-600 dark:text-pink-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">
+                    Ekipmanlar
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Ekipman yönetimi
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/depo/periodic-products">
+            <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow transition-shadow hover:shadow-lg cursor-pointer">
+              <div className="flex items-center gap-4">
+                <div className="rounded-full bg-teal-100 dark:bg-teal-900 p-3">
+                  <Calendar className="h-6 w-6 text-teal-600 dark:text-teal-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">
+                    Periyodik Ürünler
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Takip ve bildirimler
                   </p>
                 </div>
               </div>
